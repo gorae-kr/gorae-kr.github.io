@@ -20,279 +20,7 @@
 </script>
 <link rel="icon" href="assets/whale.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css">
-<style>
-:root{
-  --fg:#111;
-  --gray:#6e6e6e;
-  --sub:#767676;
-  --line:#e6e6e6;
-  --bg:#fff;
-  --soft:#f5f5f3;
-  --point:#2346d8;
-  --hd:68px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;scroll-padding-top:var(--hd)}
-body{font-family:"Pretendard Variable",Pretendard,-apple-system,sans-serif;color:var(--fg);background:var(--bg);line-height:1.7;letter-spacing:-.01em;-webkit-font-smoothing:antialiased;word-break:keep-all;overflow-wrap:break-word}
-h1,h2,h3,h4{text-wrap:balance}
-p{text-wrap:pretty}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-img{display:block}
-.w{max-width:1200px;margin:0 auto;padding:0 24px}
-.m-br{display:none}
-@media(max-width:600px){.m-br{display:inline}.pc-br{display:none}}
-
-/* 진행바 */
-.progress{position:fixed;top:0;left:0;height:2px;background:var(--fg);width:0;z-index:30}
-
-/* 헤더 */
-header{position:fixed;inset:0 0 auto;height:var(--hd);background:rgba(255,255,255,.94);backdrop-filter:blur(10px);z-index:20;transition:border-color .2s}
-header.line{border-bottom:1px solid var(--line)}
-header .w{display:flex;align-items:center;justify-content:space-between;height:100%}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.02em}
-.brand img{height:28px}
-.brand span{font-weight:500;color:var(--sub);margin-right:3px}
-.gnb{display:flex;gap:34px;font-size:15px;font-weight:500}
-.gnb a{position:relative;padding:4px 0}
-.gnb a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:0;background:var(--fg);transition:width .25s}
-.gnb a:hover::after,.gnb a.on::after{width:100%}
-.gnb .cta{background:var(--fg);color:#fff;padding:8px 16px;border-radius:4px}
-.gnb .cta::after{display:none}
-.menu-btn{display:none;width:28px;height:20px;position:relative}
-.menu-btn i{position:absolute;left:0;right:0;height:2px;background:var(--fg);transition:.25s}
-.menu-btn i:nth-child(1){top:2px}.menu-btn i:nth-child(2){top:9px}.menu-btn i:nth-child(3){top:16px}
-body.open .menu-btn i:nth-child(1){top:9px;transform:rotate(45deg)}
-body.open .menu-btn i:nth-child(2){opacity:0}
-body.open .menu-btn i:nth-child(3){top:9px;transform:rotate(-45deg)}
-@media(max-width:860px){
-  .menu-btn{display:block}
-  .gnb{position:fixed;top:var(--hd);left:0;right:0;height:calc(100dvh - var(--hd));overflow-y:auto;background:#fff;flex-direction:column;gap:0;padding:12px 24px;font-size:22px;font-weight:600;transform:translateY(-8px);opacity:0;pointer-events:none;transition:.25s}
-  .gnb a{padding:16px 0;border-bottom:1px solid var(--line)}
-  .gnb a::after{display:none}
-  .gnb .cta{margin-top:24px;text-align:center;border:0;padding:16px}
-  body.open .gnb{opacity:1;transform:none;pointer-events:auto}
-  body.open{overflow:hidden}
-}
-
-/* 히어로 */
-.hero{position:relative;padding:calc(var(--hd) + 110px) 0 90px;overflow:hidden;border-bottom:1px solid var(--line)}
-.hero .w{position:relative;z-index:1}
-.motto{font-size:15px;color:var(--sub);margin-bottom:26px}
-.hero h1{font-size:clamp(38px,6.4vw,80px);font-weight:700;line-height:1.2;letter-spacing:-.045em}
-.hero h1 .l1{color:var(--gray);display:block}
-.hero h1 .l2{color:var(--fg);display:block}
-.hero-desc{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:56px;flex-wrap:wrap}
-.hero-desc p{max-width:440px;font-size:17px;color:#444}
-.hero-whale{position:absolute;top:var(--hd);right:0;width:min(470px,36vw);pointer-events:none;opacity:0;transform:translateX(24px);transition:opacity 1s .2s,transform 1.2s .2s cubic-bezier(.2,.7,.2,1)}
-.ready .hero-whale{opacity:1;transform:none}
-.hero-whale img{width:100%;transform-origin:30% 60%;animation:bob 5.5s ease-in-out infinite}
-@keyframes bob{
-  0%{transform:translateY(0) rotate(0deg)}
-  25%{transform:translateY(-10px) rotate(-1.6deg)}
-  50%{transform:translateY(-2px) rotate(.4deg)}
-  75%{transform:translateY(8px) rotate(1.6deg)}
-  100%{transform:translateY(0) rotate(0deg)}
-}
-
-/* 사진 */
-.hero-photo{margin:0;position:relative;overflow:hidden;aspect-ratio:21/8;background:var(--soft)}
-.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 82%}
-.hero-photo figcaption{position:absolute;left:24px;bottom:18px;color:#fff;font-size:13px;text-shadow:0 1px 6px rgba(0,0,0,.4)}
-@media(max-width:700px){.hero-photo{aspect-ratio:4/3}}
-.gallery{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:220px;gap:12px}
-.gallery button{position:relative;overflow:hidden;background:var(--soft);padding:0;text-align:left}
-.gallery button:first-child{grid-column:span 2;grid-row:span 2}
-.gallery img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-.gallery button:hover img{transform:scale(1.03)}
-.gallery span{position:absolute;left:14px;bottom:12px;color:#fff;font-size:13px;font-weight:500;text-shadow:0 1px 6px rgba(0,0,0,.45)}
-@media(max-width:860px){.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:160px}}
-.lightbox .modal-box{max-width:1100px;padding:0;background:#000}
-.lightbox img{width:100%;max-height:82vh;object-fit:contain}
-.lightbox p{color:#ddd;font-size:14px;padding:12px 16px}
-.lightbox .close{color:#fff}
-
-/* 혜택 */
-.benefits{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--fg);margin-top:40px}
-.benefits li{padding:24px 24px 24px 0;border-bottom:1px solid var(--line)}
-.benefits li:nth-child(even){padding-left:24px;border-left:1px solid var(--line)}
-.benefits small{font-size:13px;color:var(--sub)}
-.benefits strong{display:block;font-size:18px;font-weight:600;margin:6px 0 6px}
-.benefits p{font-size:15px;color:var(--sub)}
-@media(max-width:700px){.benefits{grid-template-columns:1fr}.benefits li:nth-child(even){padding-left:0;border-left:0}}
-@media(max-width:860px){.hero{padding-top:calc(var(--hd) + 220px)}.hero-whale{width:62vw;max-width:340px}}
-
-.arrow-link{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;padding-bottom:4px;border-bottom:1.5px solid var(--fg);transition:gap .2s}
-.arrow-link:hover{gap:16px}
-
-/* 섹션 공통 */
-section{padding:130px 0}
-.head{display:grid;grid-template-columns:220px 1fr;gap:40px;margin-bottom:60px}
-.head .label{font-size:14px;font-weight:600;color:var(--sub);padding-top:10px}
-.head h2{font-size:clamp(28px,3.6vw,44px);font-weight:700;line-height:1.32;letter-spacing:-.035em}
-.head h2 .g{color:var(--gray)}
-.head p{margin-top:20px;font-size:17px;color:#444;max-width:620px}
-.indent{margin-left:260px}
-@media(max-width:900px){.head{grid-template-columns:1fr;gap:12px;margin-bottom:40px}.indent{margin-left:0}section{padding:90px 0}}
-
-/* 핵심가치 */
-.values{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--fg)}
-.values>div{padding:26px 24px 10px 0}
-.values>div+div{padding-left:24px;border-left:1px solid var(--line)}
-.values small{font-size:13px;color:var(--sub);font-variant-numeric:tabular-nums}
-.values strong{display:block;font-size:20px;font-weight:700;margin:8px 0 10px}
-.values p{font-size:15px;color:var(--sub)}
-@media(max-width:900px){.values{grid-template-columns:1fr 1fr}.values>div:nth-child(3){padding-left:0;border-left:0}}
-@media(max-width:520px){.values{grid-template-columns:1fr}.values>div,.values>div+div{padding:20px 0;border-left:0;border-bottom:1px solid var(--line)}}
-
-/* 인사말 */
-.greet{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:90px;border-top:1px solid var(--line)}
-.greet>div{padding-top:40px}
-.greet blockquote{font-size:clamp(22px,2.4vw,28px);font-weight:600;line-height:1.55;letter-spacing:-.03em;padding-right:40px}
-.greet .who{margin-top:28px;font-size:15px;color:var(--sub)}
-.greet .who b{color:var(--fg);font-weight:600;margin-left:6px}
-.org{border-left:1px solid var(--line);padding-left:40px}
-.org h4{font-size:14px;color:var(--sub);font-weight:600;margin-bottom:18px}
-.org-tree{display:grid;gap:10px;font-size:15px}
-.org-tree .top{display:flex;gap:10px}
-.org-tree .box{border:1px solid var(--fg);padding:10px 16px;text-align:center;flex:1}
-.org-tree .box.dark{background:var(--fg);color:#fff}
-.org-tree .teams{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.org-tree .teams .box{border-color:var(--line);background:var(--soft)}
-@media(max-width:900px){.greet{grid-template-columns:1fr}.org{border-left:0;padding-left:0;margin-top:40px}.greet blockquote{padding-right:0}}
-
-/* 사업분야 - 아코디언 */
-.biz{border-top:1px solid var(--fg)}
-.biz-item{border-bottom:1px solid var(--line)}
-.biz-item button{width:100%;display:grid;grid-template-columns:60px 1fr 24px;gap:16px;align-items:center;text-align:left;padding:28px 0}
-.biz-item .n{font-size:14px;color:var(--sub);font-variant-numeric:tabular-nums}
-.biz-item .t{font-size:clamp(19px,2.2vw,24px);font-weight:600;letter-spacing:-.03em;transition:color .2s}
-.biz-item button:hover .t{color:var(--point)}
-.biz-item .pm{position:relative;width:16px;height:16px}
-.biz-item .pm::before,.biz-item .pm::after{content:"";position:absolute;left:0;right:0;top:7px;height:1.5px;background:var(--fg);transition:transform .25s}
-.biz-item .pm::after{transform:rotate(90deg)}
-.biz-item.open .pm::after{transform:rotate(0)}
-.biz-item .ans{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s}
-.biz-item.open .ans{grid-template-rows:1fr}
-.biz-item .ans>div{overflow:hidden}
-.biz-item .ans p{padding:0 0 30px 76px;color:#444;max-width:760px}
-@media(max-width:600px){.biz-item button{grid-template-columns:40px 1fr 20px}.biz-item .ans p{padding-left:56px}}
-
-/* 활동 - 가로 스크롤 */
-.act-bar{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:28px;flex-wrap:wrap}
-.tabs{display:flex;gap:24px;font-size:15px;flex-wrap:wrap}
-.tabs button{color:var(--sub);padding-bottom:4px;border-bottom:1.5px solid transparent}
-.tabs button.on{color:var(--fg);font-weight:600;border-color:var(--fg)}
-.nav-btns{display:flex;gap:8px}
-.nav-btns button{width:44px;height:44px;border:1px solid var(--line);border-radius:50%;font-size:18px;transition:.2s}
-.nav-btns button:hover{border-color:var(--fg)}
-.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:4px}
-.track::-webkit-scrollbar{display:none}
-.card{flex:0 0 calc((100% - 40px)/3);scroll-snap-align:start;background:var(--soft);padding:30px 28px;min-height:300px;display:flex;flex-direction:column;text-align:left;transition:background .25s}
-.card:hover{background:#ecece9}
-.card .y{font-size:14px;color:var(--sub);font-variant-numeric:tabular-nums}
-.card h3{font-size:21px;font-weight:600;letter-spacing:-.03em;line-height:1.45;margin:14px 0 10px}
-.card p{font-size:14px;color:var(--sub)}
-.card .more{margin-top:auto;padding-top:28px;font-size:14px;font-weight:600;display:flex;justify-content:space-between}
-.card .tag{font-weight:500;color:var(--sub)}
-@media(max-width:900px){.card{flex-basis:calc((100% - 20px)/2)}}
-@media(max-width:600px){.card{flex-basis:84%}}
-
-/* 연혁 */
-.years{display:flex;gap:28px;margin-bottom:12px}
-.years button{font-size:clamp(28px,3.4vw,40px);font-weight:700;letter-spacing:-.03em;color:#cfcfcf;transition:color .2s}
-.years button.on{color:var(--fg)}
-.history{border-top:1px solid var(--fg)}
-.history li{list-style:none;display:grid;grid-template-columns:110px 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);font-size:16px}
-.history li span{color:var(--sub);font-variant-numeric:tabular-nums}
-.history li[hidden]{display:none}
-
-/* 회원가입 */
-.join{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--fg)}
-.join>div{padding:48px}
-.join>div+div{border-left:1px solid var(--fg)}
-.join .fee{font-size:clamp(34px,4vw,48px);font-weight:700;letter-spacing:-.03em}
-.steps{list-style:none;counter-reset:s;margin-top:26px}
-.steps li{counter-increment:s;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px;display:flex;gap:14px}
-.steps li::before{content:counter(s,decimal-leading-zero);color:var(--sub);font-variant-numeric:tabular-nums}
-.btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;background:var(--fg);color:#fff;padding:16px 28px;font-weight:600;font-size:15px;border-radius:4px;transition:background .2s}
-.btn:hover{background:var(--point)}
-.btn.full{width:100%}
-@media(max-width:860px){.join{grid-template-columns:1fr}.join>div+div{border-left:0;border-top:1px solid var(--fg)}.join>div{padding:30px 24px}}
-
-/* FAQ */
-.faq{border-top:1px solid var(--fg)}
-.faq details{border-bottom:1px solid var(--line)}
-.faq summary{list-style:none;cursor:pointer;padding:24px 40px 24px 0;font-size:18px;font-weight:600;position:relative}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::after{content:"+";position:absolute;right:4px;top:20px;font-size:24px;font-weight:300;transition:transform .2s}
-.faq details[open] summary::after{transform:rotate(45deg)}
-.faq details p{padding:0 0 26px;color:#444;max-width:760px}
-
-/* 문의 */
-.contact{display:grid;grid-template-columns:1fr 1.2fr;gap:60px}
-.contact *{min-width:0}
-@media(max-width:1100px){.contact{grid-template-columns:1fr;gap:50px}}
-.field input,.field select,.field textarea{width:100%}
-.info dl{border-top:1px solid var(--fg)}
-.info dl>div{display:grid;grid-template-columns:90px 1fr;padding:18px 0;border-bottom:1px solid var(--line);font-size:16px}
-.info dt{color:var(--sub);font-size:14px;padding-top:2px}
-.copy{font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);margin-left:10px}
-.copy:hover{color:var(--fg)}
-.branch-title{font-size:14px;color:var(--sub);font-weight:600;margin:44px 0 12px}
-.branches{list-style:none;border-top:1px solid var(--fg)}
-.branches li{display:grid;grid-template-columns:90px 1fr auto;gap:12px;align-items:start;padding:18px 0;border-bottom:1px solid var(--line);font-size:16px}
-.branches b{font-weight:600;font-size:15px}
-.branches small{color:var(--sub);font-size:13px}
-.branches .acts{display:flex;gap:4px;white-space:nowrap}
-.branches .acts .copy{margin-left:8px}
-.branches .soon span{color:var(--sub)}
-@media(max-width:520px){.branches li{grid-template-columns:76px 1fr}.branches .acts{grid-column:2}.branches .acts .copy:first-child{margin-left:0}}
-form{display:grid;gap:14px}
-.field{display:grid;gap:6px}
-.field label{font-size:14px;color:var(--sub)}
-.field input,.field select,.field textarea{font:inherit;font-size:16px;border:1px solid var(--line);border-radius:4px;padding:14px 16px;background:#fff;color:var(--fg);transition:border-color .2s}
-.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--fg)}
-.field textarea{min-height:140px;resize:vertical}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.err{font-size:13px;color:#c0392b;min-height:0}
-.agree{font-size:14px;color:var(--sub);display:flex;gap:8px;align-items:center}
-.agree input{accent-color:var(--fg)}
-@media(max-width:860px){.contact{grid-template-columns:1fr;gap:50px}.two{grid-template-columns:1fr}}
-
-/* 푸터 */
-footer{background:var(--fg);color:#bdbdbd;padding:64px 0 80px;font-size:14px}
-footer .top{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;flex-wrap:wrap;padding-bottom:40px;border-bottom:1px solid #333;margin-bottom:28px}
-footer .brand{color:#fff}
-footer .brand img{filter:invert(1)}
-footer .brand span{color:#9a9a9a}
-footer .links{display:flex;gap:28px;color:#fff}
-footer p{line-height:1.9}
-
-/* 모달 */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:grid;place-items:center;padding:20px;z-index:40;opacity:0;pointer-events:none;transition:opacity .2s}
-.modal.show{opacity:1;pointer-events:auto}
-.modal-box{background:#fff;max-width:560px;width:100%;padding:40px;position:relative;transform:translateY(12px);transition:transform .25s}
-.modal.show .modal-box{transform:none}
-.modal-box .y{font-size:14px;color:var(--sub)}
-.modal-box h3{font-size:26px;font-weight:700;letter-spacing:-.03em;line-height:1.4;margin:10px 0 18px}
-.modal-box dl{border-top:1px solid var(--fg);margin-top:20px}
-.modal-box dl>div{display:grid;grid-template-columns:80px 1fr;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
-.modal-box dt{color:var(--sub)}
-.close{position:absolute;top:16px;right:16px;width:36px;height:36px;font-size:22px}
-
-/* 토스트, 맨위로 */
-.toast{position:fixed;left:50%;bottom:32px;transform:translate(-50%,20px);background:var(--fg);color:#fff;padding:12px 20px;border-radius:4px;font-size:14px;opacity:0;transition:.25s;z-index:50;pointer-events:none}
-.toast.show{opacity:1;transform:translate(-50%,0)}
-.top-btn{position:fixed;right:24px;bottom:24px;width:48px;height:48px;border-radius:50%;background:#fff;border:1px solid var(--line);font-size:18px;opacity:0;pointer-events:none;transition:.25s;z-index:15}
-.top-btn.show{opacity:1;pointer-events:auto}
-.top-btn:hover{border-color:var(--fg)}
-
-/* 스크롤 등장 */
-.rv{opacity:0;transform:translateY(18px);transition:opacity .8s,transform .8s cubic-bezier(.2,.7,.2,1)}
-.rv.in{opacity:1;transform:none}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
-</style>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
 <div class="progress" id="progress"></div>
@@ -300,7 +28,7 @@ footer p{line-height:1.9}
 <header id="header"><div class="w">
   <a class="brand" href="#top"><img src="assets/whale.png" alt=""><div><span>사단법인</span>고래</div></a>
   <nav class="gnb" id="gnb">
-    <a href="#about">소개</a><a href="#business">사업분야</a><a href="#activity">활동</a><a href="#history">연혁</a><a href="#faq">FAQ</a><a href="#contact">문의</a>
+    <a href="#about">소개</a><a href="#business">사업분야</a><a href="#activity">활동</a><a href="#history">연혁</a><a href="#branches">지부</a><a href="#faq">FAQ</a><a href="#contact">문의</a>
     <a class="cta" href="#join">회원가입</a>
   </nav>
   <button class="menu-btn" id="menuBtn" aria-label="메뉴 열기"><i></i><i></i><i></i></button>
@@ -418,7 +146,16 @@ footer p{line-height:1.9}
         <li><small>혜택 02</small><strong>프로그램 우선 안내</strong><p>새 프로그램과 행사 소식을 가장 먼저 받아봅니다.</p></li>
         <li><small>혜택 03</small><strong>청년 네트워크</strong><p>대구·울산·광주 지부 회원들과 교류합니다.</p></li>
         <li><small>혜택 04</small><strong>사무실 이용</strong><p>회의, 스터디, 작업이 필요할 때 고래 사무실을 함께 쓸 수 있습니다.</p></li>
-      </ul>    </div>
+      </ul>
+      <!-- 본점 사무실 사진: assets/photos/office-daegu.jpg 파일을 넣으면 자동으로 표시됩니다 -->
+      <figure class="office-slot join-office">
+        <div class="frame">
+          <img class="photo" src="assets/photos/office-daegu.jpg" alt="고래 본점 사무실" onerror="this.closest('.office-slot').classList.add('empty')">
+          <div class="ph"><img src="assets/whale.png" alt=""><span>사무실 사진 준비 중</span></div>
+        </div>
+        <figcaption>회원이 함께 쓰는 고래 본점 사무실</figcaption>
+      </figure>
+    </div>
   </div>
   <div class="join rv">
     <div>
@@ -467,11 +204,11 @@ footer p{line-height:1.9}
         <div><dt>이메일</dt><dd>wwwhhh.kor@gmail.com<button class="copy" data-copy="wwwhhh.kor@gmail.com">복사</button></dd></div>
         <div><dt>SNS</dt><dd><a href="https://www.instagram.com/go.rae" target="_blank" rel="noopener">Instagram @go.rae ↗</a></dd></div>
       </dl>
-      <h4 class="branch-title">본점 · 지부</h4>
+      <h4 class="branch-title" id="branches">본점 · 지부</h4>
       <ul class="branches">
         <li><b>본점</b><span>대구광역시 수성구 무학로 161, 2층</span><span class="acts"><button class="copy" data-copy="대구광역시 수성구 무학로 161, 2층">복사</button><a class="copy" href="https://map.naver.com/p/search/대구광역시%20수성구%20무학로%20161" target="_blank" rel="noopener">지도 ↗</a></span></li>
-        <li><b>울산지부</b><span>울산광역시 남구 봉원로 24, B1층</span><span class="acts"><button class="copy" data-copy="울산광역시 남구 봉원로 24, B1층">복사</button><a class="copy" href="https://map.naver.com/p/search/울산광역시%20남구%20봉원로%2024" target="_blank" rel="noopener">지도 ↗</a></span></li>
-        <li><b>광주지부</b><span>광주광역시 북구 우치로 148, 3층<br><small>(용봉동 20-18)</small></span><span class="acts"><button class="copy" data-copy="광주광역시 북구 우치로 148, 3층">복사</button><a class="copy" href="https://map.naver.com/p/search/광주광역시%20북구%20우치로%20148" target="_blank" rel="noopener">지도 ↗</a></span></li>
+        <li><a class="name" href="ulsan/">울산지부</a><span>울산광역시 남구 봉원로 24, B1층</span><span class="acts"><a class="copy go" href="ulsan/">지부 페이지 →</a><a class="copy" href="https://map.naver.com/p/search/울산광역시%20남구%20봉원로%2024" target="_blank" rel="noopener">지도 ↗</a></span></li>
+        <li><a class="name" href="gwangju/">광주지부</a><span>광주광역시 북구 우치로 148, 3층<br><small>(용봉동 20-18)</small></span><span class="acts"><a class="copy go" href="gwangju/">지부 페이지 →</a><a class="copy" href="https://map.naver.com/p/search/광주광역시%20북구%20우치로%20148" target="_blank" rel="noopener">지도 ↗</a></span></li>
         <li class="soon"><b>경주 외</b><span>새로운 지부를 준비하고 있습니다</span></li>
       </ul>
     </div>
@@ -529,7 +266,7 @@ const HIST={
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 
 // 등장
-requestAnimationFrame(()=>document.body.classList.add('ready'));
+setTimeout(()=>document.body.classList.add('ready'),60);
 const rvIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rvIO.unobserve(e.target)}}),{threshold:.12});
 $$('.rv').forEach(el=>rvIO.observe(el));
 
