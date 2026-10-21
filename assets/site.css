@@ -309,3 +309,10 @@ footer p{line-height:1.9}
 .other-branches span{font-size:14px;color:var(--sub)}
 .other-branches .soon{background:var(--soft);border-color:transparent}
 @media(max-width:700px){.other-branches{grid-template-columns:1fr}}
+
+/* 문의 양식: 스팸 방지 칸, 접수 완료 */
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.sent{border-top:1px solid var(--fg);padding:28px 0 8px;display:grid;gap:8px;justify-items:start}
+.sent strong{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.sent p{color:#444}
+.btn:disabled{opacity:.6;cursor:wait}
