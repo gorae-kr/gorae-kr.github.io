@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hanys0224-art.github.io/gorae-homepage/sitemap.xml
+Sitemap: https://gorae-kr.github.io/sitemap.xml
