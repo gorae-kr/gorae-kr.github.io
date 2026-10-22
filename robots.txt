@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.go-rae.com/sitemap.xml
+Sitemap: https://hanys0224-art.github.io/gorae-homepage/sitemap.xml
