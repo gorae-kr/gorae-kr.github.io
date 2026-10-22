@@ -316,3 +316,13 @@ footer p{line-height:1.9}
 .sent strong{font-size:22px;font-weight:700;letter-spacing:-.03em}
 .sent p{color:#444}
 .btn:disabled{opacity:.6;cursor:wait}
+
+/* 인스타그램 */
+.gnb .ig{display:inline-flex;align-items:center;gap:8px}
+.gnb .ig span{display:none}
+.gnb .ig::after{display:none}
+.gnb .ig:hover{color:var(--point)}
+@media(max-width:860px){.gnb .ig span{display:inline}}
+.insta{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.insta p{color:#444;font-size:16px}
+.insta p b{color:var(--fg);font-weight:600}

@@ -4,9 +4,12 @@
  * 홈페이지 문의 양식에서 보낸 내용을 이 스프레드시트에 한 줄씩 저장하고,
  * 아래 NOTIFY_EMAIL 주소로 알림 메일을 보냅니다.
  *
- * 설치: 스프레드시트 > 확장 프로그램 > Apps Script 에 이 코드를 붙여넣고
+ * 설치: script.google.com 에서 새 프로젝트를 만들어 이 코드를 붙여넣고
  *       배포 > 새 배포 > 유형 "웹 앱" (실행: 나, 액세스: 모든 사용자) 로 배포합니다.
  */
+
+// 문의를 저장할 스프레드시트 ID ("사단법인 고래 홈페이지 문의")
+const SHEET_ID = '1Jj4p-DVekGlqYcfD3wO7LiilUJKYO0BXYwjzEKcQsc8';
 
 // 문의 알림을 받을 메일 주소 (여러 개면 쉼표로 구분)
 const NOTIFY_EMAIL = 'wwwhhh.kor@gmail.com';
@@ -28,7 +31,7 @@ function doPost(e) {
     if (data.agree !== true) return reply_({ ok: false, error: '개인정보 수집·이용에 동의해 주세요.' });
 
     lock.waitLock(10000);
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+    const sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
     sheet.appendRow([new Date(), v.type, v.name, v.phone, v.msg, v.page]);
 
     MailApp.sendEmail({
@@ -41,7 +44,7 @@ function doPost(e) {
         '연락처: ' + (v.phone || '(없음)') + '\n' +
         '보낸 페이지: ' + v.page + '\n\n' +
         '내용:\n' + v.msg + '\n\n' +
-        '전체 문의 목록: ' + SpreadsheetApp.getActiveSpreadsheet().getUrl()
+        '전체 문의 목록: ' + SpreadsheetApp.openById(SHEET_ID).getUrl()
     });
 
     return reply_({ ok: true });
