@@ -25,6 +25,9 @@ function doPost(e) {
     // 봇이 채우는 숨은 칸에 값이 있으면 조용히 무시
     if (data.website) return reply_({ ok: true });
 
+    // 회원가입 신청서는 '회원가입' 탭에 따로 저장
+    if (data.kind === 'member') return saveMember_(data, lock);
+
     const v = {};
     for (const key in MAX_LEN) v[key] = clean_(data[key], MAX_LEN[key]);
     if (!v.name || !v.msg) return reply_({ ok: false, error: '이름과 내용을 입력해 주세요.' });
@@ -56,6 +59,50 @@ function doPost(e) {
   }
 }
 
+// 회원가입 신청서 저장 (사단법인 고래 회원가입 신청서 항목)
+const MEMBER_SHEET = '회원가입';
+const MEMBER_HEADER = ['접수일시', '성명', '생년월일', '연락처', '이메일', '주소', '활동 희망 지역',
+                       '개인정보 수집·이용 동의', '동의 일시', '이사회 승인', '비고'];
+const MEMBER_LEN = { name: 60, birth: 10, phone: 40, email: 120, address: 300, branch: 40 };
+
+function saveMember_(data, lock) {
+  const m = {};
+  for (const key in MEMBER_LEN) m[key] = clean_(data[key], MEMBER_LEN[key]);
+  if (!m.name || !m.birth || !m.phone || !m.email || !m.address) {
+    return reply_({ ok: false, error: '성명, 생년월일, 연락처, 이메일, 주소를 모두 입력해 주세요.' });
+  }
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(m.birth)) return reply_({ ok: false, error: '생년월일을 다시 확인해 주세요.' });
+  if (data.agree !== true) return reply_({ ok: false, error: '개인정보 수집·이용에 동의해 주세요.' });
+
+  lock.waitLock(10000);
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sheet = ss.getSheetByName(MEMBER_SHEET);
+  if (!sheet) {
+    sheet = ss.insertSheet(MEMBER_SHEET);
+    sheet.appendRow(MEMBER_HEADER);
+    sheet.setFrozenRows(1);
+  }
+  sheet.appendRow([new Date(), m.name, m.birth, m.phone, m.email, m.address, m.branch,
+                   '동의함', clean_(data.consentAt, 40), '', '']);
+
+  MailApp.sendEmail({
+    to: NOTIFY_EMAIL,
+    subject: '[고래 회원가입 신청] ' + m.name,
+    body:
+      '홈페이지로 새 회원가입 신청서가 들어왔습니다.\n\n' +
+      '성명: ' + m.name + '\n' +
+      '생년월일: ' + m.birth + '\n' +
+      '연락처: ' + m.phone + '\n' +
+      '이메일: ' + m.email + '\n' +
+      '주소: ' + m.address + '\n' +
+      '활동 희망 지역: ' + m.branch + '\n' +
+      '개인정보 수집·이용: 동의함\n\n' +
+      '이사회 승인 후 시트의 "이사회 승인" 칸에 기록해 주세요.\n' +
+      '신청서 목록: ' + ss.getUrl() + '#gid=' + sheet.getSheetId()
+  });
+  return reply_({ ok: true });
+}
+
 // 주소로 직접 열었을 때 동작 확인용
 function doGet() {
   return reply_({ ok: true, message: '고래 문의 접수 스크립트가 작동 중입니다.' });
@@ -65,6 +112,8 @@ function clean_(value, max) {
   let s = String(value == null ? '' : value).trim().slice(0, max);
   // 시트에서 수식으로 실행되지 않도록 = + - @ 로 시작하면 앞에 ' 를 붙임
   if (/^[=+\-@]/.test(s)) s = "'" + s;
+  // 0으로 시작하는 숫자(전화번호)는 앞자리 0이 사라지지 않도록 글자로 저장
+  else if (/^0\d+$/.test(s)) s = "'" + s;
   return s;
 }
 

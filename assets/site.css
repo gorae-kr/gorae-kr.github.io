@@ -326,3 +326,30 @@ footer p{line-height:1.9}
 .insta{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
 .insta p{color:#444;font-size:16px}
 .insta p b{color:var(--fg);font-weight:600}
+
+/* 회원가입 신청서 */
+.member{margin-top:48px;border:1px solid var(--fg);padding:44px;display:grid;gap:22px}
+.member>*{min-width:0}
+.member-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--line);padding-bottom:18px}
+.member-head h3{font-size:22px;font-weight:700;letter-spacing:-.03em}
+.member-head p{font-size:14px;color:var(--sub)}
+.member b,.consent legend b{color:#c0392b;font-weight:600}
+.member-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.member-grid>*{min-width:0}
+.member-grid .wide{grid-column:1/-1}
+.addr-row{display:flex;gap:8px}
+.addr-row input{flex:1;min-width:0}
+.btn.ghost{background:#fff;color:var(--fg);border:1px solid var(--fg);padding:0 18px;white-space:nowrap}
+.btn.ghost:hover{background:var(--fg);color:#fff}
+.consent{border:1px solid var(--line);background:var(--soft);padding:22px 24px;margin:0}
+.consent legend{font-size:15px;font-weight:600;padding:0 6px}
+.consent>p{font-size:14px;color:#444;margin-bottom:14px}
+.consent dl{border-top:1px solid #d9d9d6}
+.consent dl>div{display:grid;grid-template-columns:120px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid #d9d9d6;font-size:14px}
+.consent dt{color:var(--sub)}
+.consent-choice{display:flex;gap:24px;margin-top:16px;font-size:15px}
+.consent-choice label{display:flex;align-items:center;gap:8px;cursor:pointer}
+.consent-choice input{accent-color:var(--fg)}
+.member .note{font-size:13px;color:var(--sub)}
+.member .sent{border-top:1px solid var(--fg)}
+@media(max-width:700px){.member{padding:26px 18px}.member-grid{grid-template-columns:1fr}.consent dl>div{grid-template-columns:1fr;gap:2px}.addr-row{flex-direction:column}.btn.ghost{padding:12px 18px}}

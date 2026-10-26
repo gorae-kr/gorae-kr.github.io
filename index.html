@@ -12,7 +12,11 @@
 <meta property="og:title" content="사단법인 고래 | 청년이 만드는 내일, 청년이 바꾸는 세상">
 <meta property="og:description" content="대구·울산·광주의 청년 비영리 사단법인 고래. 작은 행동으로 큰 변화를 이루리.">
 <meta property="og:url" content="https://gorae-kr.github.io/">
-<meta property="og:image" content="https://gorae-kr.github.io/assets/photos/award.jpg">
+<meta property="og:image" content="https://gorae-kr.github.io/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="사단법인 고래 - 청년이 만드는 내일, 청년이 바꾸는 세상">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:locale" content="ko_KR">
 <!-- 네이버 서치어드바이저 소유확인 태그를 여기에 붙여넣으세요 -->
 <script type="application/ld+json">
@@ -167,7 +171,7 @@
       <h4 style="font-size:14px;color:var(--sub);font-weight:600;margin-bottom:12px">회비</h4>
       <div class="fee">무료</div>
       <p style="color:var(--sub);font-size:15px;margin:8px 0 30px">회비 없이 누구나 정회원으로 함께할 수 있어요.</p>
-      <a class="btn full" href="#contact" id="joinBtn">가입 신청하기</a>
+      <a class="btn full" href="#member" id="joinBtn">가입 신청서 작성하기</a>
     </div>
     <div>
       <h4 style="font-size:14px;color:var(--sub);font-weight:600">가입 절차</h4>
@@ -178,6 +182,51 @@
       </ol>
     </div>
   </div>
+
+  <!-- 회원가입 신청서 (사단법인 고래 회원가입 신청서 양식) -->
+  <form class="member rv" id="member" novalidate>
+    <div class="member-head">
+      <h3>사단법인 고래 회원가입 신청서</h3>
+      <p><b>*</b> 표시는 필수 항목이에요.</p>
+    </div>
+    <div class="member-grid">
+      <div class="field"><label for="m-name">성명 <b>*</b></label><input id="m-name" autocomplete="name" required></div>
+      <div class="field"><label for="m-birth">생년월일 <b>*</b></label><input id="m-birth" type="date" min="1900-01-01" required></div>
+      <div class="field"><label for="m-phone">연락처 <b>*</b></label><input id="m-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" required></div>
+      <div class="field"><label for="m-email">이메일 <b>*</b></label><input id="m-email" type="email" autocomplete="email" placeholder="name@example.com" required></div>
+      <div class="field wide"><label for="m-addr">주소 (도로명) <b>*</b></label>
+        <div class="addr-row"><input id="m-addr" autocomplete="street-address" placeholder="주소 검색을 누르거나 직접 입력해 주세요" required><button type="button" class="btn ghost" id="m-addr-find">주소 검색</button></div>
+      </div>
+      <div class="field wide"><label for="m-addr2">상세 주소</label><input id="m-addr2" placeholder="동·호수 등"></div>
+      <div class="field"><label for="m-branch">활동 희망 지역</label><select id="m-branch"><option>대구 (본점)</option><option>울산지부</option><option>광주지부</option><option>기타 지역</option></select></div>
+    </div>
+    <div class="hp" aria-hidden="true"><label for="m-website">웹사이트</label><input id="m-website" tabindex="-1" autocomplete="off"></div>
+
+    <label class="agree"><input type="checkbox" id="m-intent"> 본인은 사단법인 고래의 설립 취지에 찬동하며 회원가입을 신청합니다. <b>*</b></label>
+
+    <fieldset class="consent">
+      <legend>개인정보 수집·이용 동의 <b>*</b></legend>
+      <p>사단법인 고래는 회원 관리 및 사업 안내를 위해 「개인정보 보호법」 제15조에 따라 아래와 같이 개인정보를 수집·이용합니다.</p>
+      <dl>
+        <div><dt>수집·이용 목적</dt><dd>사단법인 회원 관리 및 사업 안내</dd></div>
+        <div><dt>수집 항목</dt><dd>성명, 생년월일, 주소, 연락처, 이메일</dd></div>
+        <div><dt>보유·이용 기간</dt><dd>회원 탈퇴 시까지 (탈퇴 시 지체 없이 파기)</dd></div>
+        <div><dt>동의 거부 권리</dt><dd>동의를 거부할 수 있으며, 거부하실 경우 회원가입이 제한됩니다.</dd></div>
+      </dl>
+      <div class="consent-choice">
+        <label><input type="radio" name="m-consent" value="yes"> 동의함</label>
+        <label><input type="radio" name="m-consent" value="no"> 동의하지 않음</label>
+      </div>
+    </fieldset>
+    <p class="note">만 14세 미만은 법정대리인의 동의가 필요해요. 해당되면 010-6370-0437로 연락 주세요.</p>
+
+    <p class="err" id="m-err" role="alert"></p>
+    <button class="btn" type="submit" id="m-send">회원가입 신청하기</button>
+    <div class="sent" id="m-sent" hidden>
+      <strong>회원가입 신청이 접수됐어요.</strong>
+      <p>이사회 승인 후 남겨주신 연락처로 안내드릴게요.</p>
+    </div>
+  </form>
 </div></section>
 
 <!-- FAQ -->
@@ -339,7 +388,57 @@ const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.add('show');clea
 $$('.copy[data-copy]').forEach(b=>b.onclick=()=>{navigator.clipboard?.writeText(b.dataset.copy).then(()=>toast('복사했어요'),()=>toast(b.dataset.copy))});
 
 // 회원가입 → 문의 유형 자동 선택
-$('#joinBtn').onclick=()=>{$('#type').value='회원가입';$('#msg').value='회원가입 신청합니다.'};
+// 회원가입 신청서
+$('#m-birth').max=new Date().toISOString().slice(0,10);
+$('#m-addr-find').onclick=()=>{
+  const open=()=>new daum.Postcode({oncomplete:d=>{$('#m-addr').value=d.roadAddress||d.jibunAddress||d.address;$('#m-addr2').focus()}}).open();
+  if(window.daum&&daum.Postcode) return open();
+  const s=document.createElement('script');
+  s.src='https://t1.daumcdn.net/mapjsdaum/postcode/prod/postcode.v2.js';
+  s.onload=open;
+  s.onerror=()=>{$('#m-err').textContent='주소 검색을 불러오지 못했어요. 주소를 직접 입력해 주세요.';$('#m-addr').focus()};
+  document.head.appendChild(s);
+};
+const ageOf=b=>{const t=new Date(),d=new Date(b);let a=t.getFullYear()-d.getFullYear();const m=t.getMonth()-d.getMonth();if(m<0||(m===0&&t.getDate()<d.getDate()))a--;return a};
+$('#member').onsubmit=async e=>{
+  e.preventDefault();
+  const err=$('#m-err'), btn=$('#m-send'), endpoint=$('#form').dataset.endpoint;
+  const m={
+    name:$('#m-name').value.trim(), birth:$('#m-birth').value, phone:$('#m-phone').value.trim(),
+    email:$('#m-email').value.trim(), addr:$('#m-addr').value.trim(), addr2:$('#m-addr2').value.trim(),
+    branch:$('#m-branch').value, intent:$('#m-intent').checked,
+    consent:(document.querySelector('input[name="m-consent"]:checked')||{}).value||''
+  };
+  const missing=[['성명',m.name],['생년월일',m.birth],['연락처',m.phone],['이메일',m.email],['주소',m.addr]].filter(([,v])=>!v).map(([k])=>k);
+  if(missing.length){err.textContent='다음 항목을 입력해 주세요: '+missing.join(', ');return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(m.email)){err.textContent='이메일 주소를 다시 확인해 주세요.';return}
+  if(m.phone.replace(/\D/g,'').length<9){err.textContent='연락처를 다시 확인해 주세요.';return}
+  if(ageOf(m.birth)<14){err.textContent='만 14세 미만은 법정대리인의 동의가 필요해요. 010-6370-0437로 연락 주세요.';return}
+  if(!m.intent){err.textContent='회원가입 신청 문구에 체크해 주세요.';return}
+  if(m.consent!=='yes'){err.textContent='개인정보 수집·이용에 동의하셔야 회원가입을 신청할 수 있어요.';return}
+  err.textContent='';
+  const address=m.addr+(m.addr2?' '+m.addr2:'');
+  const payload={
+    kind:'member', name:m.name, birth:m.birth, phone:m.phone, email:m.email, address, branch:m.branch,
+    agree:true, consentAt:new Date().toISOString(), website:$('#m-website').value, page:location.pathname,
+    // 예전 접수 스크립트에서도 내용이 빠지지 않도록 문의 형식으로도 같이 보냄
+    type:'회원가입', msg:`[회원가입 신청서]\n생년월일: ${m.birth}\n이메일: ${m.email}\n주소: ${address}\n활동 희망 지역: ${m.branch}\n개인정보 수집·이용: 동의함`
+  };
+  if(!endpoint){err.textContent='지금은 온라인 접수가 어려워요. 010-6370-0437로 연락 주세요.';return}
+  btn.disabled=true;btn.textContent='보내는 중…';
+  try{
+    const res=await fetch(endpoint,{method:'POST',body:JSON.stringify(payload)});
+    const out=await res.json();
+    if(!out.ok) throw new Error(out.error||'');
+    $('#member').reset();
+    $$('#member>*:not(.sent):not(.member-head)').forEach(el=>el.hidden=true);
+    $('#m-sent').hidden=false;
+  }catch(x){
+    err.textContent=(x.message||'신청서를 보내지 못했어요.')+' 계속 안 되면 010-6370-0437로 연락 주세요.';
+  }finally{
+    btn.disabled=false;btn.textContent='회원가입 신청하기';
+  }
+};
 
 // 문의 폼 → 구글 시트 접수 (주소는 form 의 data-endpoint)
 $('#form').onsubmit=async e=>{
