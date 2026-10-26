@@ -28,7 +28,7 @@ header{position:fixed;inset:0 0 auto;height:var(--hd);background:rgba(255,255,25
 header.line{border-bottom:1px solid var(--line)}
 header .w{display:flex;align-items:center;justify-content:space-between;height:100%}
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.02em}
-.brand img{height:28px}
+.brand img{height:26px;width:auto}
 .brand span{font-weight:500;color:var(--sub);margin-right:3px}
 .gnb{display:flex;align-items:center;gap:34px;font-size:15px;font-weight:500}
 .gnb a{position:relative;padding:4px 0}
@@ -61,7 +61,7 @@ body.open .menu-btn i:nth-child(3){top:9px;transform:rotate(-45deg)}
 .hero h1 .l2{color:var(--fg);display:block}
 .hero-desc{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:56px;flex-wrap:wrap}
 .hero-desc p{max-width:440px;font-size:17px;color:#444}
-.hero-whale{position:absolute;top:var(--hd);right:0;width:min(470px,36vw);pointer-events:none}
+.hero-whale{position:absolute;top:calc(var(--hd) + 72px);right:max(24px,calc((100vw - 1200px) / 2 + 24px));width:min(440px,34vw);pointer-events:none}
 .ready .hero-whale{opacity:1;transform:none}
 .hero-whale img{width:100%;transform-origin:30% 60%;animation:bob 5.5s ease-in-out infinite}
 @keyframes bob{
@@ -97,7 +97,7 @@ body.open .menu-btn i:nth-child(3){top:9px;transform:rotate(-45deg)}
 .benefits strong{display:block;font-size:18px;font-weight:600;margin:6px 0 6px}
 .benefits p{font-size:15px;color:var(--sub)}
 @media(max-width:700px){.benefits{grid-template-columns:1fr}.benefits li:nth-child(even){padding-left:0;border-left:0}}
-@media(max-width:860px){.hero{padding-top:calc(var(--hd) + 220px)}.hero-whale{width:62vw;max-width:340px}}
+@media(max-width:860px){.hero{padding-top:calc(var(--hd) + 230px)}.hero-whale{top:calc(var(--hd) + 32px);right:24px;width:min(270px,62vw)}}
 
 .arrow-link{display:inline-flex;align-items:center;gap:10px;font-weight:600;font-size:15px;padding-bottom:4px;border-bottom:1.5px solid var(--fg);transition:gap .2s}
 .arrow-link:hover{gap:16px}
@@ -295,8 +295,8 @@ footer p{line-height:1.9}
 .branch-hero h1 .l1{color:var(--gray);display:block}
 .branch-hero h1 .l2{display:block}
 .branch-hero .lead{margin-top:28px;max-width:520px;font-size:17px;color:#444}
-.branch-hero .hero-whale{top:var(--hd);width:min(380px,30vw)}
-@media(max-width:860px){.branch-hero{padding-top:calc(var(--hd) + 180px)}.branch-hero .hero-whale{width:52vw;max-width:280px}}
+.branch-hero .hero-whale{top:calc(var(--hd) + 56px);width:min(360px,30vw)}
+@media(max-width:860px){.branch-hero{padding-top:calc(var(--hd) + 200px)}.branch-hero .hero-whale{top:calc(var(--hd) + 28px);width:min(230px,54vw)}}
 .branch-body{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:start}
 .branch-body>*{min-width:0}
 @media(max-width:900px){.branch-body{grid-template-columns:1fr;gap:40px}}
