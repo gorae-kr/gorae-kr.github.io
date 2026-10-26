@@ -30,7 +30,7 @@ header .w{display:flex;align-items:center;justify-content:space-between;height:1
 .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;letter-spacing:-.02em}
 .brand img{height:28px}
 .brand span{font-weight:500;color:var(--sub);margin-right:3px}
-.gnb{display:flex;gap:34px;font-size:15px;font-weight:500}
+.gnb{display:flex;align-items:center;gap:34px;font-size:15px;font-weight:500}
 .gnb a{position:relative;padding:4px 0}
 .gnb a::after{content:"";position:absolute;left:0;bottom:0;height:1.5px;width:0;background:var(--fg);transition:width .25s}
 .gnb a:hover::after,.gnb a.on::after{width:100%}
@@ -44,7 +44,7 @@ body.open .menu-btn i:nth-child(2){opacity:0}
 body.open .menu-btn i:nth-child(3){top:9px;transform:rotate(-45deg)}
 @media(max-width:860px){
   .menu-btn{display:block}
-  .gnb{position:fixed;top:var(--hd);left:0;right:0;height:calc(100dvh - var(--hd));overflow-y:auto;background:#fff;flex-direction:column;gap:0;padding:12px 24px;font-size:22px;font-weight:600;transform:translateY(-8px);opacity:0;pointer-events:none;transition:.25s}
+  .gnb{position:fixed;top:var(--hd);left:0;right:0;height:calc(100dvh - var(--hd));overflow-y:auto;background:#fff;flex-direction:column;align-items:stretch;gap:0;padding:12px 24px;font-size:22px;font-weight:600;transform:translateY(-8px);opacity:0;pointer-events:none;transition:.25s}
   .gnb a{padding:16px 0;border-bottom:1px solid var(--line)}
   .gnb a::after{display:none}
   .gnb .cta{margin-top:24px;text-align:center;border:0;padding:16px}
@@ -318,11 +318,12 @@ footer p{line-height:1.9}
 .btn:disabled{opacity:.6;cursor:wait}
 
 /* 인스타그램 */
-.gnb .ig{display:inline-flex;align-items:center;gap:8px}
+.gnb .ig{display:inline-flex;align-items:center;gap:8px;line-height:1}
+.gnb .ig svg{display:block}
 .gnb .ig span{display:none}
 .gnb .ig::after{display:none}
 .gnb .ig:hover{color:var(--point)}
-@media(max-width:860px){.gnb .ig span{display:inline}}
+@media(max-width:860px){.gnb .ig span{display:inline}.gnb .ig{line-height:inherit}}
 .insta{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
 .insta p{color:#444;font-size:16px}
 .insta p b{color:var(--fg);font-weight:600}
