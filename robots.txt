@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://gorae-kr.github.io/sitemap.xml
+Sitemap: https://go-rae.com/sitemap.xml
