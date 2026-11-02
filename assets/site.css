@@ -364,3 +364,6 @@ footer p{line-height:1.9}
 .member .note{font-size:13px;color:var(--sub)}
 .member .sent{border-top:1px solid var(--fg)}
 @media(max-width:700px){.member{padding:26px 18px}.member-grid{grid-template-columns:1fr}.consent dl>div{grid-template-columns:1fr;gap:2px}.addr-row{flex-direction:column}.btn.ghost{padding:12px 18px}}
+
+/* 메뉴가 많아 태블릿 폭에서는 간격을 좁힘 */
+@media(min-width:861px) and (max-width:1100px){.gnb{gap:20px;font-size:14px}.brand{white-space:nowrap}}
