@@ -54,7 +54,19 @@
   </div>
 </div>
 
-<figure class="hero-photo"><img src="assets/photos/award.jpg" alt="2025 대구·경북 청년 어워드 단체 사진"><figcaption>2025 대구·경북 청년 어워드</figcaption></figure>
+<!-- 메인 활동 사진 슬라이드: 사진을 추가하려면 figure 를 한 줄 더 넣으면 됩니다 -->
+<div class="hero-photo" id="slides" role="group" aria-roledescription="슬라이드" aria-label="고래 활동 사진">
+  <figure class="slide on" style="--pos:82%"><img src="assets/photos/award.jpg" alt="2025 대구·경북 청년 어워드 단체 사진"><figcaption>2025 대구·경북 청년 어워드</figcaption></figure>
+  <figure class="slide" style="--pos:72%"><img data-src="assets/photos/startup.jpg" alt="청년 창업 지원 사업설명회 단체 사진"><figcaption>청년 창업 지원 사업설명회</figcaption></figure>
+  <figure class="slide" style="--pos:62%"><img data-src="assets/photos/cleanup.jpg" alt="자취골목 클린업 프로젝트 참여자들"><figcaption>자취골목 클린업 프로젝트</figcaption></figure>
+  <figure class="slide" style="--pos:58%"><img data-src="assets/photos/yoga-class.jpg" alt="신천달빛요가 참여자들"><figcaption>신천달빛요가</figcaption></figure>
+  <figure class="slide" style="--pos:73%"><img data-src="assets/photos/hiphop.jpg" alt="대구힙합페스티벌 물품보관소 운영진"><figcaption>대구힙합페스티벌 물품보관소</figcaption></figure>
+  <figure class="slide" style="--pos:74%"><img data-src="assets/photos/volunteer.jpg" alt="경북 청년 호우 피해 지역 복구 봉사활동 단체 사진"><figcaption>경북 청년 호우 피해 지역 복구 봉사활동</figcaption></figure>
+  <div class="slide-ctrl">
+    <button type="button" id="slidePause" aria-label="슬라이드 멈추기" aria-pressed="false"><span aria-hidden="true">❚❚</span></button>
+    <div class="slide-dots" id="slideDots"></div>
+  </div>
+</div>
 
 <!-- 소개 -->
 <section id="about"><div class="w">
@@ -99,7 +111,7 @@
     <button data-src="assets/photos/cleanup.jpg"><img src="assets/photos/cleanup.jpg" alt="" loading="lazy"><span>자취골목 클린업 프로젝트</span></button>
     <button data-src="assets/photos/yoga-class.jpg"><img src="assets/photos/yoga-class.jpg" alt="" loading="lazy"><span>신천달빛요가</span></button>
     <button data-src="assets/photos/hiphop.jpg"><img src="assets/photos/hiphop.jpg" alt="" loading="lazy" style="object-position:center 70%"><span>대구힙합페스티벌 물품보관소</span></button>
-    <button data-src="assets/photos/volunteer.jpg"><img src="assets/photos/volunteer.jpg" alt="" loading="lazy"><span>지역 봉사활동</span></button>
+    <button data-src="assets/photos/volunteer.jpg"><img src="assets/photos/volunteer.jpg" alt="" loading="lazy"><span>호우 피해 복구 봉사활동</span></button>
   </div>
   <div class="insta rv">
     <p>더 많은 현장 사진과 새 프로그램 소식은 <b>인스타그램 @go.rae</b>에서 가장 먼저 올라와요.</p>
@@ -373,6 +385,50 @@ track.addEventListener('click',e=>{const c=e.target.closest('.card');if(!c)retur
 const closeModal=()=>modal.classList.remove('show');
 $('#close').onclick=closeModal;
 modal.onclick=e=>{if(e.target===modal)closeModal()};
+// 메인 활동 사진 슬라이드
+(()=>{
+  const box=$('#slides'), slides=$$('#slides .slide'), dotsBox=$('#slideDots'), pauseBtn=$('#slidePause');
+  const DELAY=5000;
+  let cur=0, timer=null, paused=matchMedia('(prefers-reduced-motion: reduce)').matches, hold=false;
+  const dots=slides.map((s,i)=>{
+    const b=document.createElement('button');
+    b.type='button';
+    b.setAttribute('aria-label',`${i+1}번째 사진: ${s.querySelector('figcaption').textContent}`);
+    b.onclick=()=>{show(i);restart()};
+    dotsBox.appendChild(b);
+    return b;
+  });
+  function show(i){
+    slides[cur].classList.remove('on');
+    cur=(i+slides.length)%slides.length;
+    slides[cur].classList.add('on');
+    dots.forEach((d,n)=>{d.classList.toggle('on',n===cur);d.setAttribute('aria-current',n===cur?'true':'false')});
+  }
+  function restart(){
+    clearTimeout(timer);
+    if(!paused&&!hold&&!document.hidden) timer=setTimeout(()=>{
+      const next=slides[(cur+1)%slides.length].querySelector('img');
+      if(next.complete&&next.naturalWidth) show(cur+1); // 아직 안 받아진 사진은 건너뛰지 않고 기다림
+      restart();
+    },DELAY);
+  }
+  function drawPause(){
+    pauseBtn.firstElementChild.textContent=paused?'▶':'❚❚';
+    pauseBtn.setAttribute('aria-label',paused?'슬라이드 재생':'슬라이드 멈추기');
+    pauseBtn.setAttribute('aria-pressed',paused);
+  }
+  pauseBtn.onclick=()=>{paused=!paused;drawPause();restart()};
+  box.addEventListener('mouseenter',()=>{hold=true;restart()});
+  box.addEventListener('mouseleave',()=>{hold=false;restart()});
+  box.addEventListener('focusin',()=>{hold=true;restart()});
+  box.addEventListener('focusout',()=>{hold=false;restart()});
+  document.addEventListener('visibilitychange',restart);
+  // 첫 화면을 다 불러온 뒤 나머지 사진을 받아서 처음 로딩을 가볍게 유지
+  const loadRest=()=>$$('#slides img[data-src]').forEach(img=>{img.src=img.dataset.src;img.removeAttribute('data-src')});
+  document.readyState==='complete'?loadRest():addEventListener('load',loadRest);
+  show(0);drawPause();restart();
+})();
+
 // 사진 크게 보기
 const lb=$('#lightbox');
 $$('#gallery-grid button').forEach(b=>b.onclick=()=>{$('#lbImg').src=b.dataset.src;$('#lbCap').textContent=b.querySelector('span').textContent;lb.classList.add('show')});
