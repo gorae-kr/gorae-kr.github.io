@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>고래의 칼퇴 🐳 | 넥스트 AI 서포터즈</title>
+<meta name="description" content="19시까지 야근을 피해 탈출하세요. 대표님이 당신 이름을 부릅니다. 넥스트 AI 서포터즈 1기 모집 기념 게임.">
+<meta name="theme-color" content="#071631">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="사단법인 고래">
+<meta property="og:title" content="고래의 칼퇴 🐳">
+<meta property="og:description" content="19시까지 야근을 피해 탈출하세요. 대표님이 당신 이름을 부릅니다.">
+<meta property="og:url" content="https://go-rae.com/game/">
+<meta property="og:image" content="https://go-rae.com/game/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="고래의 칼퇴 - 넥스트 AI 서포터즈 1기 모집 기념 게임">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gothic+A1:wght@400;700;900&display=swap">
+<style>
+/* Layout: one full-height arcade cabinet, deep-sea office at night; HTML overlays on a canvas. Single dark look by choice. */
+:root{
+  --sea-deep:#071631;
+  --sea:#0f2f5e;
+  --whale:#63c9ff;
+  --gold:#ffd84a;
+  --danger:#ff6b81;
+  --paper:#f2f6ff;
+  --muted:#a3b8dc;
+  --ink:#071631;
+  --display:'Black Han Sans','Gothic A1',system-ui,sans-serif;
+  --body:'Gothic A1',system-ui,-apple-system,sans-serif;
+  color-scheme:dark;
+}
+html,body{height:100%;margin:0}
+[hidden]{display:none!important}
+body{
+  background:var(--sea-deep);color:var(--paper);font-family:var(--body);
+  overflow:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-top:max(12px,env(safe-area-inset-top,0px));padding-bottom:max(12px,env(safe-area-inset-bottom,0px));box-sizing:border-box;
+  display:flex;justify-content:center;
+}
+.stage{
+  position:relative;width:100%;max-width:480px;height:100%;
+  border-radius:20px;overflow:hidden;
+  box-shadow:0 0 0 2px #1d4785,0 20px 60px #000a;
+  touch-action:none;user-select:none;-webkit-user-select:none;
+  background:var(--sea);
+}
+canvas{display:block;width:100%;height:100%}
+.overlay{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  gap:14px;padding:26px 20px;
+  background:linear-gradient(180deg,#071631eb,#0b2450f5);
+  overflow-y:auto;touch-action:pan-y;user-select:text;-webkit-user-select:text;
+}
+.overlay > :first-child{margin-top:auto}
+.overlay > :last-child{margin-bottom:auto}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.08em;color:var(--gold)}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(44px,13vw,64px);line-height:1;margin:0;text-wrap:balance;color:var(--paper)}
+h1 em{font-style:normal;color:var(--whale)}
+h2{font-family:var(--display);font-weight:400;font-size:clamp(28px,8.5vw,40px);line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0;line-height:1.6;color:var(--muted);font-size:15px}
+p strong{color:var(--paper)}
+.challenge{background:#ff6b8126;border:1.5px solid #ff6b8199;border-radius:14px;padding:12px 14px;font-size:14px;line-height:1.5;color:var(--paper)}
+.challenge b{color:var(--gold)}
+.rules{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rules li{display:grid;grid-template-columns:64px 1fr;gap:12px;align-items:center;font-size:13.5px;line-height:1.45}
+.rules .k{font-size:16px;text-align:center;background:#ffffff12;border-radius:10px;padding:6px 0;white-space:nowrap}
+.rules b{color:var(--paper)}
+.rules .warn b{color:var(--danger)}
+.field{display:grid;gap:6px}
+.field label{font-size:12px;font-weight:700;color:var(--muted);letter-spacing:.04em}
+input[type=text]{
+  font:700 17px var(--body);color:var(--paper);background:#ffffff14;border:1.5px solid #ffffff30;
+  border-radius:12px;padding:12px 14px;outline:none;min-width:0;
+}
+input[type=text]:focus{border-color:var(--whale)}
+.btn{
+  appearance:none;border:0;cursor:pointer;font-family:var(--display);font-size:22px;
+  padding:16px 20px;border-radius:14px;background:var(--gold);color:var(--ink);
+  box-shadow:0 5px 0 #b8941c;transition:transform .08s;text-align:center;text-decoration:none;display:block;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #b8941c}
+.btn:focus-visible{outline:3px solid var(--paper);outline-offset:3px}
+.btn.ghost{background:transparent;color:var(--paper);box-shadow:inset 0 0 0 2px #ffffff40;font-size:18px;padding:12px}
+.btn.blue{background:var(--whale);box-shadow:0 5px 0 #2f8fc4;font-size:18px;padding:12px 14px}
+.btn.small{font-size:16px;padding:12px 14px;white-space:nowrap}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row.one{grid-template-columns:1fr}
+.typecard{background:#ffffff0f;border-radius:18px;padding:18px 16px;display:grid;gap:6px;justify-items:center;text-align:center}
+.typecard .temoji{font-size:64px;line-height:1.1}
+.typecard .tlabel{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:.06em}
+.typecard p{font-size:14px;color:var(--paper)}
+.msg{font-size:14px}
+.chal-result{font-size:14px;text-align:center;font-weight:700;color:var(--gold)}
+.scorecard{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.scorecard div{background:#ffffff10;border-radius:12px;padding:12px 14px;min-width:0}
+.scorecard span{display:block;font-size:12px;color:var(--muted);letter-spacing:.04em}
+.scorecard b{font-family:var(--display);font-weight:400;font-size:28px;font-variant-numeric:tabular-nums;color:var(--paper)}
+.chal{display:grid;gap:8px;background:#ffffff0a;border-radius:14px;padding:14px}
+.chal label{font-size:13px;font-weight:700;color:var(--paper)}
+.chal-row{display:grid;grid-template-columns:1fr auto;gap:8px}
+.chal-out{font-size:13px;color:var(--muted);word-break:break-all;line-height:1.5}
+.chal-out b{color:var(--gold)}
+.promo{background:#63c9ff1c;border:1.5px solid #63c9ff66;border-radius:16px;padding:16px;display:grid;gap:12px}
+.promo p{color:var(--paper);font-size:14px}
+.promo .btn{font-size:19px}
+.promo small{display:block;font-size:12px;color:var(--muted);line-height:1.5}
+.rankbox{background:#ffffff0a;border-radius:14px;padding:14px;display:grid;gap:8px}
+.rank-h{font-family:var(--display);font-size:18px;color:var(--gold)}
+.rankbox ol{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.rankbox li{display:grid;grid-template-columns:28px 1fr 26px auto;gap:8px;align-items:center;font-size:14px;padding:6px 8px;border-radius:8px;font-variant-numeric:tabular-nums}
+.rankbox li.me{background:#ffd84a26;outline:1.5px solid #ffd84a88}
+.rankbox .rk{font-family:var(--display);color:var(--muted);text-align:center}
+.rankbox li:nth-child(1) .rk{color:var(--gold)}
+.rankbox .nm{font-weight:700;color:var(--paper);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.rankbox .sc{font-family:var(--display);color:var(--paper)}
+.rank-empty{font-size:13px;color:var(--muted)}
+.tag{font-size:13px;color:var(--muted);text-align:center}
+.tag b{color:var(--gold)}
+.foot{font-size:12px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){.btn{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <canvas id="game" aria-label="고래의 칼퇴 게임 화면"></canvas>
+
+  <section class="overlay" id="startScreen">
+    <div class="eyebrow">넥스트 AI 서포터즈 1기 모집 기념 게임</div>
+    <h1>고래의<br><em>칼퇴</em></h1>
+    <div class="challenge" id="challengeBanner" hidden></div>
+    <p>수요일 <strong>18:00</strong>. 야근의 바다에 갇힌 고래를 <strong>19:00</strong>까지 무사히 탈출시켜 주세요.</p>
+    <div class="field">
+      <label for="playerName">대표님이 부를 내 이름 (랭킹에도 올라가요)</label>
+      <input id="playerName" type="text" maxlength="6" placeholder="예: 민지" autocomplete="off">
+    </div>
+    <ul class="rules">
+      <li><span class="k">탭</span><span>탭(PC는 스페이스바)하면 위로 헤엄쳐요.</span></li>
+      <li class="warn"><span class="k">🔥</span><span><b>바닥(번아웃 존)에 닿으면 바로 게임 오버!</b></span></li>
+      <li><span class="k">📄🍻📞</span><span>보고서, 회식, 업무 전화, 단톡방, 엑셀 오류, 프린터, 대표님을 피하세요. 멘탈은 3개예요.</span></li>
+      <li class="warn"><span class="k">❗</span><span><b>"○○씨~!"</b> 경고가 뜨면 그 줄로 대표님의 호출이 날아와요. <b>18:56엔 대표님 본체</b>가 길을 막아요.</span></li>
+      <li><span class="k">✨☕🏖️</span><span>AI는 3초 무적, 커피는 멘탈 +1, 반차는 시계 +5분이에요.</span></li>
+    </ul>
+    <button class="btn" id="startBtn" type="button">탈출 시작</button>
+    <div class="rankbox" id="startRankBox" hidden>
+      <div class="rank-h">🏆 실시간 칼퇴 랭킹 TOP 10</div>
+      <ol id="startRank"></ol>
+    </div>
+    <div class="foot">한 판 약 50초</div>
+  </section>
+
+  <section class="overlay" id="overScreen" hidden>
+    <div class="eyebrow" id="overTime">18:42 기록</div>
+    <div class="typecard">
+      <div class="tlabel" id="tLabel">나의 직장인 유형</div>
+      <div class="temoji" id="tEmoji">🐳</div>
+      <h2 id="tName">정시 칼퇴러</h2>
+      <p id="tDesc"></p>
+    </div>
+    <p class="msg" id="overMsg"></p>
+    <div class="chal-result" id="chalResult" hidden></div>
+    <div class="scorecard">
+      <div><span>점수</span><b id="overScore">0</b></div>
+      <div><span id="rankLabel">최고 기록</span><b id="overRank">0</b></div>
+    </div>
+    <div class="row" id="actionRow">
+      <button class="btn ghost" id="retryBtn" type="button">다시 하기</button>
+      <button class="btn blue" id="saveBtn" type="button">결과 카드 저장</button>
+    </div>
+    <div class="chal" id="chalBox">
+      <label for="friendName">친구한테 도전장 보내기 (대표님이 친구 이름을 불러요 ㅋㅋ)</label>
+      <div class="chal-row">
+        <input id="friendName" type="text" maxlength="6" placeholder="친구 이름" autocomplete="off">
+        <button class="btn small" id="chalBtn" type="button">보내기</button>
+      </div>
+      <div class="chal-out" id="chalOut" hidden></div>
+    </div>
+    <div class="promo">
+      <p>🐳 <strong>이 게임, 코딩 없이 AI한테 말로 시켜서 만들었어요.</strong><br>이렇게 만드는 법, 11월 18일 AI 게임잼에서 무료로 알려드려요!</p>
+      <a class="btn" id="applyBtn" href="https://forms.gle/ZkihRXwdyzTAHJ239" target="_blank" rel="noopener">넥스트 AI 서포터즈 신청하기</a>
+      <small>무료 · 선착순 50명 · 11월 9일(월) 마감<br>매주 수요일 19:00–21:00 · 대구 수성구 · 만 19–39세</small>
+    </div>
+    <div class="rankbox" id="overRankBox" hidden>
+      <div class="rank-h">🏆 실시간 칼퇴 랭킹 TOP 10</div>
+      <ol id="overRankList"></ol>
+    </div>
+    <div class="tag">결과 카드를 스토리에 올리고 인스타 <b>@go.rae</b>를 태그해 주세요</div>
+  </section>
+</div>
+
+<script>
+(() => {
+  // ▼ 랭킹용 Apps Script 웹 앱 주소. 비워 두면 랭킹 없이 동작해요.
+  const RANK_API = 'https://script.google.com/macros/s/AKfycbxHZFZOrjnxXMqSPr11xMNlbRIQWXcUADFcXoY-s_DN8QvjlEsgejUQxxZuozdQfr4ZlA/exec';
+  const GAME_URL = 'https://go-rae.com/game/';
+
+  const stage = document.getElementById('stage');
+  const cvs = document.getElementById('game');
+  const ctx = cvs.getContext('2d');
+  const $ = id => document.getElementById(id);
+  const startScreen = $('startScreen');
+  const overScreen = $('overScreen');
+  const nameInput = $('playerName');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EMBEDDED = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
+  const RANK_ON = !!RANK_API && !EMBEDDED;
+
+  const GAME_LEN = 50;
+  const FLOOR_H = 40;
+  const BOSS_MIN = 56;
+
+  const BAD = ['시발','씨발','씨빨','ㅅㅂ','ㅆㅂ','병신','ㅂㅅ','개새','좆','존나','졸라','미친','닥쳐','섹스','sex','fuck','shit','bitch'];
+  const cleanName = s => String(s || '').replace(/[<>"'&=+\-@\\\t\r\n]/g, '').trim().slice(0, 6);
+  const safeName = s => { const n = cleanName(s); const flat = n.toLowerCase().replace(/\s/g, ''); return BAD.some(b => flat.includes(b)) ? '익명고래' : n; };
+
+  const TYPES = {
+    report:  { e: '📄', label: '보고서',   r: 24, beh: 'straight', from: 0,    msg: '퇴근 5분 전에 보고서 수정 요청이 들어왔어요.' },
+    dinner:  { e: '🍻', label: '회식',     r: 24, beh: 'zigzag',   from: 0,    msg: '갑자기 회식이 잡혔어요. 1차는 삼겹살, 2차는 노래방이래요.' },
+    call:    { e: '📞', label: '업무 전화', r: 24, beh: 'buzz',     from: 0,    msg: '퇴근 1분 전에 "혹시 지금 잠깐 통화 가능하세요?" 전화가 왔어요.' },
+    printer: { e: '🖨️', label: '프린터',   r: 31, beh: 'big',      from: 0,    msg: '프린터가 하필 지금 종이를 씹었어요.' },
+    excel:   { e: '📊', label: '#REF!',    r: 24, beh: 'straight', from: 0.18, msg: '엑셀이 #REF!를 뱉었어요. 원인은 아무도 몰라요.' },
+    chat:    { e: '💬', label: '@전체',    r: 15, beh: 'cluster',  from: 0.22, msg: '단톡방에 "@전체 내일 오전까지 회신 바랍니다"가 올라왔어요.' },
+    boss:    { e: '👔', label: '대표님',   r: 25, beh: 'homing',   from: 0.28, msg: '대표님이 "잠깐 얘기 좀 할까?" 하셨어요.' },
+    deadline:{ e: '⏰', label: '마감',     r: 23, beh: 'fast',     from: 0.35, msg: '마감이 내일 아침으로 당겨졌어요.' },
+  };
+  const BOSS_LINES = ['잠깐만~', '퇴근해? 벌써?', '이거 5분이면 되지?', '내일 회의 자료 있지?', '밥은 먹고 가야지~', '잠깐 얘기 좀 할까?', '메일 확인했어?'];
+
+  // 직장인 유형
+  const RESULT = {
+    legend:   { e: '🏆', name: '전설의 칼퇴 고래', desc: '멘탈 하나 안 깎이고 19시 정각 퇴근. 회사에 소문 다 났어요.' },
+    ai:       { e: '🤖', name: 'AI 의존형 칼퇴러', desc: '일은 AI가, 퇴근은 내가. 이게 바로 미래형 인재.' },
+    win:      { e: '🐳', name: '정시 칼퇴러', desc: '상처는 좀 났지만 칼퇴는 칼퇴. 오늘 저녁은 내 거예요.' },
+    burnout:  { e: '🔥', name: '번아웃 직전형', desc: '열심히 버티다 바닥까지 가라앉았어요. 오늘은 좀 쉬어요.' },
+    unlucky:  { e: '😭', name: '1분 차이 비운의 고래', desc: '퇴근이 코앞이었는데… 문 앞에서 붙잡혔어요.' },
+    favorite: { e: '👔', name: '대표님 최애 직원', desc: '대표님이 자꾸 이름을 불러요. 사랑받는 건 좋지만 퇴근은 하고 싶어요.' },
+    dinner:   { e: '🍻', name: '회식 자석형', desc: '회식이 당신을 놓아주지 않아요. 2차 노래방 확정.' },
+    call:     { e: '📞', name: '전화 공포증형', desc: '퇴근 직전 전화벨만 울리면 심장이 쿵 내려앉아요.' },
+    report:   { e: '📄', name: '보고서 노예형', desc: '최종_진짜최종_v7을 쓰다가 해가 졌어요.' },
+    printer:  { e: '🖨️', name: '프린터 저주형', desc: '프린터가 당신만 보면 종이를 씹어요.' },
+    excel:    { e: '📊', name: '#REF! 울렁증형', desc: '엑셀 오류 원인을 찾다가 퇴근 시간이 지나갔어요.' },
+    chat:     { e: '💬', name: '단톡방 알림 지옥형', desc: '@전체 알림에 영혼이 털렸어요.' },
+    deadline: { e: '⏰', name: '마감 노예형', desc: '마감은 언제나 당신보다 빨라요.' },
+  };
+
+  // 도전장
+  const qs = new URLSearchParams(location.search);
+  const challenge = qs.get('c') ? {
+    from: safeName(qs.get('c')) || '친구',
+    score: Math.max(0, Math.min(99999, parseInt(qs.get('s'), 10) || 0)),
+    to: safeName(qs.get('to')),
+  } : null;
+
+  let W = 400, H = 700;
+  function resize() {
+    const r = stage.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = 400; H = W * r.height / r.width;
+    cvs.width = Math.round(r.width * dpr);
+    cvs.height = Math.round(r.height * dpr);
+    const s = (r.width * dpr) / W;
+    ctx.setTransform(s, 0, 0, s, 0, 0);
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  let player = '고래';
+  try { const saved = localStorage.getItem('whale-name'); if (saved) { player = saved; nameInput.value = saved; } } catch (e) {}
+  if (challenge) {
+    const b = $('challengeBanner');
+    b.textContent = '';
+    const s1 = document.createElement('b'); s1.textContent = challenge.from + '님';
+    const s2 = document.createElement('b'); s2.textContent = challenge.score.toLocaleString() + '점';
+    b.append('🔥 ', s1, '이 도전장을 보냈어요! 기록은 ', s2, '. 이길 수 있어요?');
+    b.hidden = false;
+    if (challenge.to) nameInput.value = challenge.to;
+  }
+  let best = 0;
+  try { best = +localStorage.getItem('whale-best') || 0; } catch (e) {}
+
+  if (EMBEDDED) { $('saveBtn').hidden = true; $('chalBox').hidden = true; $('actionRow').classList.add('one'); }
+
+  let mode = 'start', t = 0, realT = 0, score = 0, lives = 3;
+  let whale, obstacles, items, callouts, walls, popups, spawnT, itemT, coffeeT, halfdayLeft, calloutT, aiT, hurtT, shake, flash, spoutT, bannerIdx, banner, bossSpawned;
+  let stats, result, dieT = 0, deathMin = 0, deathLine = '';
+  const bubbles = Array.from({ length: 26 }, () => ({ x: Math.random() * 400, y: Math.random() * 900, r: 1 + Math.random() * 3.5, s: 12 + Math.random() * 30 }));
+
+  function reset() {
+    t = 0; realT = 0; score = 0; lives = 3;
+    whale = { x: 95, y: H * 0.42, vy: 0, r: 24 };
+    obstacles = []; items = []; callouts = []; walls = []; popups = [];
+    spawnT = 1.0; itemT = 5; coffeeT = 14; halfdayLeft = 1; calloutT = 15;
+    aiT = 0; hurtT = 0; shake = 0; flash = 0; spoutT = 0; bannerIdx = 0; banner = null; bossSpawned = false;
+    stats = { hits: 0, ai: 0, cause: null, line: '' };
+    result = null; dieT = 0;
+  }
+  reset();
+
+  const progress = () => Math.min(1, t / GAME_LEN);
+  const minutes = () => Math.min(60, Math.floor(progress() * 60));
+  const clockText = () => minutes() >= 60 ? '19:00' : '18:' + String(minutes()).padStart(2, '0');
+  const BANNERS = [
+    { at: 20, text: '업무 폭주 구간', sub: '18:20' },
+    { at: 40, text: '대표님 퇴근 전 구간', sub: '18:40' },
+    { at: BOSS_MIN, text: '대표님 본체 등장!', sub: '18:56 · 열린 쪽으로 빠져나가세요' },
+  ];
+
+  function flap() {
+    if (mode === 'ready') { mode = 'play'; last = performance.now(); }
+    if (mode !== 'play') return;
+    whale.vy = -460; spoutT = 0.25;
+  }
+  cvs.addEventListener('pointerdown', e => {
+    if (mode === 'play' || mode === 'ready') { e.preventDefault(); flap(); }
+  });
+  window.addEventListener('keydown', e => {
+    if ((e.code === 'Space' || e.code === 'ArrowUp') && (mode === 'play' || mode === 'ready')) { e.preventDefault(); flap(); }
+  });
+  nameInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); start(); } });
+
+  function start() {
+    const v = safeName(nameInput.value);
+    player = v || '고래';
+    try { localStorage.setItem('whale-name', v); } catch (e) {}
+    reset(); mode = 'ready';
+    startScreen.hidden = true; overScreen.hidden = true;
+    last = performance.now();
+  }
+  $('startBtn').addEventListener('click', start);
+  $('retryBtn').addEventListener('click', () => { reset(); mode = 'ready'; overScreen.hidden = true; last = performance.now(); });
+
+  function decideType(win, cause) {
+    if (win && stats.hits === 0) return 'legend';
+    if (win && stats.ai >= 3) return 'ai';
+    if (win) return 'win';
+    if (cause === 'floor') return 'burnout';
+    if (minutes() >= 55) return 'unlucky';
+    if (cause === 'callout' || cause === 'boss' || cause === 'bossfinal') return 'favorite';
+    return RESULT[cause] ? cause : 'report';
+  }
+
+  function end(win, cause) {
+    if (win) score += 500 + lives * 100;
+    stats.cause = cause || null;
+    result = { win, cause, key: decideType(win, cause), clock: clockText(), floor: cause === 'floor' };
+    if (score > best) { best = score; try { localStorage.setItem('whale-best', best); } catch (e) {} }
+    if (win) { mode = 'over'; showOver(); }
+    else { mode = 'dying'; dieT = 0; deathMin = minutes(); deathLine = result.floor ? '몸이 무거워… 좀 쉬고 싶다' : '오늘도 야근… 집에 가고 싶다'; }
+    submitScore();
+  }
+
+  function deathText(cause) {
+    if (cause === 'floor') return '바닥까지 가라앉았어요. 번아웃이에요.';
+    if (cause === 'callout') return `대표님이 "${player}씨, ${stats.line}" 하고 부르셨어요.`;
+    if (cause === 'bossfinal') return `퇴근 직전, 대표님 본체가 "${player}씨, 나가기 전에 잠깐…" 하고 막아섰어요.`;
+    return TYPES[cause] ? TYPES[cause].msg : '';
+  }
+
+  function showOver() {
+    const R = RESULT[result.key];
+    $('overTime').textContent = result.win ? '19:00 정시 탈출' : result.clock + (result.floor ? '에 번아웃' : '에 붙잡힘 → 22:47 퇴근');
+    $('tLabel').textContent = player + '씨의 직장인 유형';
+    $('tEmoji').textContent = R.e;
+    $('tName').textContent = R.name;
+    $('tDesc').textContent = R.desc;
+    const msg = $('overMsg'); msg.textContent = '';
+    const strong = document.createElement('strong');
+    if (result.win) { msg.append('19시 정각에 사무실을 빠져나왔어요. '); strong.textContent = '이 정도면 수요일 저녁엔 AI 배우러 가도 되겠어요.'; }
+    else { msg.append(deathText(result.cause) + ' '); strong.textContent = '수요일엔 AI 배우러 가야 했는데…'; }
+    msg.append(strong);
+    $('overScore').textContent = score.toLocaleString();
+    const cr = $('chalResult');
+    if (challenge) {
+      cr.hidden = false;
+      cr.textContent = score > challenge.score
+        ? `🎉 ${challenge.from}님 기록(${challenge.score.toLocaleString()}점)을 이겼어요! 도전장 돌려주기 ㄱㄱ`
+        : `😤 ${challenge.from}님 기록(${challenge.score.toLocaleString()}점)까지 ${(challenge.score - score + 1).toLocaleString()}점 남았어요`;
+    }
+    renderMyRank();
+    $('chalOut').hidden = true; $('friendName').value = '';
+    overScreen.hidden = false;
+    overScreen.scrollTop = 0;
+  }
+
+  // ───── 랭킹 ─────
+  let topCache = null, myRank = null, rankPending = false;
+  function renderRankList(ol, box) {
+    if (!RANK_ON || !topCache) { box.hidden = true; return; }
+    box.hidden = false; ol.textContent = '';
+    if (!topCache.length) { const li = document.createElement('li'); li.className = 'rank-empty'; li.textContent = '아직 기록이 없어요. 첫 번째 칼퇴 고래가 되어 보세요!'; ol.append(li); return; }
+    topCache.forEach((r, i) => {
+      const li = document.createElement('li');
+      if (r.n === player && mode !== 'start') li.className = 'me';
+      const rk = document.createElement('span'); rk.className = 'rk'; rk.textContent = i + 1;
+      const nm = document.createElement('span'); nm.className = 'nm'; nm.textContent = r.n;
+      const tp = document.createElement('span'); tp.textContent = (RESULT[r.t] || RESULT.win).e;
+      const sc = document.createElement('span'); sc.className = 'sc'; sc.textContent = Number(r.s).toLocaleString();
+      li.append(rk, nm, tp, sc); ol.append(li);
+    });
+  }
+  function renderMyRank() {
+    if (RANK_ON && myRank) { $('rankLabel').textContent = `랭킹 (${myRank.total.toLocaleString()}명 중)`; $('overRank').textContent = myRank.rank + '위'; }
+    else if (RANK_ON && rankPending) { $('rankLabel').textContent = '랭킹'; $('overRank').textContent = '집계 중…'; }
+    else { $('rankLabel').textContent = '최고 기록'; $('overRank').textContent = best.toLocaleString(); }
+    renderRankList($('overRankList'), $('overRankBox'));
+  }
+  async function loadTop() {
+    if (!RANK_ON) return;
+    try {
+      const r = await fetch(RANK_API + '?action=top');
+      const j = await r.json();
+      if (j && j.ok) { topCache = j.top || []; renderRankList($('startRank'), $('startRankBox')); }
+    } catch (e) {}
+  }
+  async function submitScore() {
+    if (!RANK_ON) return;
+    myRank = null; rankPending = true;
+    const payload = { name: player, score, type: result.key, secs: Math.round(realT * 10) / 10 };
+    try {
+      const r = await fetch(RANK_API, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      const j = await r.json();
+      if (j && j.ok) { myRank = { rank: j.rank, total: j.total }; topCache = j.top || topCache; }
+    } catch (e) {}
+    rankPending = false;
+    if (!overScreen.hidden) renderMyRank();
+    renderRankList($('startRank'), $('startRankBox'));
+  }
+  loadTop();
+
+  // ───── 결과 카드 이미지 ─────
+  function wrapLines(c, text, maxW) {
+    const words = text.split(' '); const lines = []; let line = '';
+    for (const w of words) {
+      const test = line ? line + ' ' + w : w;
+      if (c.measureText(test).width <= maxW) { line = test; continue; }
+      if (line) lines.push(line);
+      if (c.measureText(w).width <= maxW) { line = w; continue; }
+      line = '';
+      for (const ch of w) { if (c.measureText(line + ch).width > maxW) { lines.push(line); line = ch; } else line += ch; }
+    }
+    if (line) lines.push(line);
+    return lines;
+  }
+  async function makeCard() {
+    try { await Promise.all([document.fonts.load('100px "Black Han Sans"'), document.fonts.load('700 40px "Gothic A1"')]); } catch (e) {}
+    const R = RESULT[result.key];
+    const c = document.createElement('canvas'); c.width = 1080; c.height = 1920;
+    const g = c.getContext('2d');
+    const bg = g.createLinearGradient(0, 0, 0, 1920); bg.addColorStop(0, '#0f2f5e'); bg.addColorStop(1, '#071631');
+    g.fillStyle = bg; g.fillRect(0, 0, 1080, 1920);
+    const fl = g.createLinearGradient(0, 1760, 0, 1920); fl.addColorStop(0, 'rgba(255,80,80,0)'); fl.addColorStop(1, 'rgba(160,20,40,.9)');
+    g.fillStyle = fl; g.fillRect(0, 1760, 1080, 160);
+    g.textAlign = 'center'; g.textBaseline = 'alphabetic';
+    g.fillStyle = '#ffd84a'; g.font = '700 42px "Gothic A1", sans-serif'; g.fillText('🐳 고래의 칼퇴 결과', 540, 190);
+    g.fillStyle = '#a3b8dc'; g.font = '700 50px "Gothic A1", sans-serif'; g.fillText(player + '씨의 직장인 유형은', 540, 300);
+    g.font = '260px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif'; g.fillText(R.e, 540, 620);
+    let fs = 120; g.font = fs + 'px "Black Han Sans", sans-serif';
+    while (g.measureText(R.name).width > 960 && fs > 60) { fs -= 6; g.font = fs + 'px "Black Han Sans", sans-serif'; }
+    g.fillStyle = '#f2f6ff'; g.fillText(R.name, 540, 800);
+    g.font = '700 46px "Gothic A1", sans-serif'; g.fillStyle = '#d6e2f7';
+    wrapLines(g, R.desc, 900).forEach((l, i) => g.fillText(l, 540, 900 + i * 66));
+    // score boxes
+    const boxes = [['점수', score.toLocaleString()], RANK_ON && myRank ? ['랭킹', myRank.rank + '위'] : ['기록', result.win ? '19:00 칼퇴' : result.clock]];
+    boxes.forEach(([k, v], i) => {
+      const x = 90 + i * 470;
+      g.fillStyle = 'rgba(255,255,255,0.08)'; g.beginPath(); g.roundRect(x, 1090, 430, 220, 30); g.fill();
+      g.fillStyle = '#a3b8dc'; g.font = '700 38px "Gothic A1", sans-serif'; g.fillText(k, x + 215, 1160);
+      g.fillStyle = '#f2f6ff'; g.font = '84px "Black Han Sans", sans-serif'; g.fillText(v, x + 215, 1265);
+    });
+    // promo
+    g.fillStyle = 'rgba(99,201,255,0.16)'; g.beginPath(); g.roundRect(90, 1380, 900, 330, 34); g.fill();
+    g.strokeStyle = 'rgba(99,201,255,0.6)'; g.lineWidth = 3; g.stroke();
+    g.fillStyle = '#f2f6ff'; g.font = '52px "Black Han Sans", sans-serif';
+    g.fillText('이 게임 만드는 법, 무료로 배워요', 540, 1470);
+    g.fillStyle = '#d6e2f7'; g.font = '700 38px "Gothic A1", sans-serif';
+    g.fillText('넥스트 AI 서포터즈 1기 · 선착순 50명', 540, 1545);
+    g.fillText('11/9(월) 마감 · 대구 수성구 · 무료', 540, 1600);
+    g.fillStyle = '#ffd84a'; g.font = '700 40px "Gothic A1", sans-serif'; g.fillText('go-rae.com/game', 540, 1670);
+    g.fillStyle = '#f2f6ff'; g.font = '700 34px "Gothic A1", sans-serif'; g.fillText('@go.rae', 540, 1850);
+    return c;
+  }
+  $('saveBtn').addEventListener('click', async () => {
+    const btn = $('saveBtn'); btn.disabled = true; const old = btn.textContent; btn.textContent = '만드는 중…';
+    try {
+      const c = await makeCard();
+      const blob = await new Promise(res => c.toBlob(res, 'image/png'));
+      const file = new File([blob], 'gorae-kaltoe.png', { type: 'image/png' });
+      let shared = false;
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        try { await navigator.share({ files: [file], title: '고래의 칼퇴', text: `나는 ${RESULT[result.key].name} 🐳 ${GAME_URL}` }); shared = true; }
+        catch (e) { if (e && e.name === 'AbortError') shared = true; }
+      }
+      if (!shared) {
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'gorae-kaltoe.png';
+        document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      }
+    } catch (e) {}
+    btn.disabled = false; btn.textContent = old;
+  });
+
+  // ───── 도전장 ─────
+  $('chalBtn').addEventListener('click', async () => {
+    const friend = safeName($('friendName').value);
+    const base = location.protocol.startsWith('http') && !EMBEDDED ? location.origin + location.pathname : GAME_URL;
+    const url = base + '?c=' + encodeURIComponent(player) + '&s=' + score + (friend ? '&to=' + encodeURIComponent(friend) : '');
+    const text = `${friend ? friend + '씨, ' : ''}대표님이 찾으세요 ㅋㅋ 고래의 칼퇴 ${score.toLocaleString()}점 깨 봐요 🐳`;
+    const out = $('chalOut'); out.hidden = false; out.textContent = '';
+    if (navigator.share) {
+      try { await navigator.share({ title: '고래의 칼퇴 도전장', text, url }); out.textContent = '도전장을 보냈어요!'; return; }
+      catch (e) { if (e && e.name === 'AbortError') { out.hidden = true; return; } }
+    }
+    let copied = false;
+    try { await navigator.clipboard.writeText(text + ' ' + url); copied = true; } catch (e) {}
+    const b = document.createElement('b'); b.textContent = copied ? '링크를 복사했어요! 친구한테 붙여넣어 주세요.' : '아래 링크를 복사해서 보내 주세요.';
+    out.append(b, document.createElement('br'), url);
+  });
+
+  function popup(text, x, y, color) { popups.push({ text, x, y, color, life: 1 }); }
+  function pickType(p) {
+    const pool = Object.keys(TYPES).filter(k => p >= TYPES[k].from);
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+  function randY(margin) { return margin + Math.random() * (H - FLOOR_H - margin * 2); }
+  function mk(key, x, y, showLabel) {
+    return { key, T: TYPES[key], x, y, baseY: y, r: TYPES[key].r, phase: Math.random() * 6.28, passed: false, dead: false, spin: 0, showLabel };
+  }
+  function spawnObstacle(p) {
+    const key = pickType(p);
+    const T = TYPES[key];
+    if (T.beh === 'cluster') {
+      const cy = randY(90);
+      const gapAt = Math.floor(Math.random() * 4);
+      for (let i = 0; i < 4; i++) {
+        if (i === gapAt) continue;
+        obstacles.push(mk(key, W + 40 + i * 14, cy - 66 + i * 44, i === 1 || (gapAt === 1 && i === 2)));
+      }
+      return;
+    }
+    obstacles.push(mk(key, W + 40, randY(60), true));
+    if (p > 0.45 && Math.random() < 0.3) {
+      const k2 = pickType(p);
+      if (TYPES[k2].beh !== 'cluster') obstacles.push(mk(k2, W + 130, randY(60), true));
+    }
+  }
+  function spawnBossWall() {
+    const playH = H - FLOOR_H;
+    const gapH = 190;
+    const top = Math.random() < 0.5;
+    const gapTop = top ? 70 : playH - gapH - 40;
+    walls.push({ x: W + 80, w: 110, gapTop, gapH, hitDone: false, passed: false });
+  }
+
+  function hit(cause) {
+    if (aiT > 0 || hurtT > 0) return false;
+    lives--; stats.hits++; hurtT = 1.3; shake = reduceMotion ? 0 : 0.3; flash = 0.35;
+    popup('멘탈 -1', whale.x, whale.y - 40, '#ff6b81');
+    if (lives <= 0) { end(false, cause); return true; }
+    return false;
+  }
+
+  function update(dt) {
+    t += dt; realT += dt;
+    const p = progress();
+    const speed = 170 + p * 160;
+
+    while (bannerIdx < BANNERS.length && minutes() >= BANNERS[bannerIdx].at) { banner = { ...BANNERS[bannerIdx], life: 2 }; bannerIdx++; }
+    if (banner) { banner.life -= dt; if (banner.life <= 0) banner = null; }
+
+    whale.vy = Math.min(whale.vy + 1350 * dt, 620);
+    whale.y += whale.vy * dt;
+    if (whale.y < whale.r + 8) { whale.y = whale.r + 8; whale.vy = 0; }
+    if (whale.y + whale.r * 0.7 >= H - FLOOR_H) { whale.y = H - FLOOR_H - whale.r * 0.7; flash = 0.5; end(false, 'floor'); return; }
+
+    aiT = Math.max(0, aiT - dt);
+    hurtT = Math.max(0, hurtT - dt);
+    spoutT = Math.max(0, spoutT - dt);
+    shake = Math.max(0, shake - dt);
+    flash = Math.max(0, flash - dt);
+
+    const bossTime = minutes() >= BOSS_MIN;
+    if (bossTime && !bossSpawned) { bossSpawned = true; if (t < GAME_LEN - 1.6) spawnBossWall(); }
+
+    spawnT -= dt;
+    if (spawnT <= 0 && !bossTime) { spawnObstacle(p); spawnT = Math.max(0.62, 1.25 - p * 0.6); }
+
+    itemT -= dt;
+    if (itemT <= 0 && !bossTime) { items.push({ kind: 'ai', x: W + 30, y: randY(80), r: 20, ph: 0 }); itemT = 6 + Math.random() * 3; }
+    coffeeT -= dt;
+    if (coffeeT <= 0 && !bossTime) { items.push({ kind: 'coffee', x: W + 30, y: randY(80), r: 19, ph: 0 }); coffeeT = 12 + Math.random() * 4; }
+    if (halfdayLeft > 0 && p > 0.4 && p < 0.8 && Math.random() < dt * 0.12) { items.push({ kind: 'halfday', x: W + 30, y: randY(80), r: 19, ph: 0 }); halfdayLeft--; }
+
+    calloutT -= dt;
+    if (calloutT <= 0 && p > 0.25 && !bossTime) {
+      const line = BOSS_LINES[Math.floor(Math.random() * BOSS_LINES.length)];
+      const text = `👔 ${player}씨~! ${line}`;
+      ctx.font = '18px "Black Han Sans", sans-serif';
+      const w = Math.min(W - 40, ctx.measureText(text).width + 34);
+      callouts.push({ y: randY(70), warn: 1.15, x: W + 10, w, h: 46, passed: false, text, line });
+      calloutT = p > 0.7 ? 3.6 + Math.random() * 1.5 : 5.5 + Math.random() * 2.5;
+    }
+
+    for (const o of obstacles) {
+      if (o.dead) { o.x += 260 * dt; o.y -= 300 * dt; o.spin += 10 * dt; continue; }
+      let sp = speed;
+      switch (o.T.beh) {
+        case 'zigzag': o.phase += dt * 4; o.y = o.baseY + Math.sin(o.phase) * 45; break;
+        case 'buzz': sp *= 1.15; break;
+        case 'fast': sp *= 1.55; break;
+        case 'big': sp *= 0.8; break;
+        case 'homing': {
+          o.phase += dt * 3;
+          if (o.x > whale.x) { const d = whale.y - o.y; o.y += Math.max(-1, Math.min(1, d / 40)) * 70 * dt; }
+          o.y += Math.sin(o.phase) * 40 * dt;
+          break;
+        }
+      }
+      o.x -= sp * dt;
+      if (Math.hypot(o.x - whale.x, o.y - whale.y) < (whale.r + o.r) * 0.78) {
+        if (aiT > 0) { o.dead = true; score += 20; popup('AI가 처리함!', o.x, o.y - 30, '#ffd84a'); }
+        else if (hit(o.key)) return;
+      }
+      if (!o.passed && o.x < whale.x - 20) { o.passed = true; score += 10; }
+    }
+    obstacles = obstacles.filter(o => o.x > -60 && o.y > -80 && o.x < W + 260);
+
+    for (const c of callouts) {
+      if (c.warn > 0) { c.warn -= dt; continue; }
+      c.x -= speed * 2.2 * dt;
+      const left = c.x - c.w, top = c.y - c.h / 2;
+      const nx = Math.max(left, Math.min(whale.x, c.x)), ny = Math.max(top, Math.min(whale.y, top + c.h));
+      if (!c.dead && Math.hypot(nx - whale.x, ny - whale.y) < whale.r * 0.85) {
+        if (aiT > 0) { c.dead = true; score += 40; popup('AI가 대신 대답함!', whale.x + 40, c.y - 30, '#ffd84a'); }
+        else { stats.line = c.line; if (hit('callout')) return; }
+      }
+      if (!c.passed && c.x < whale.x - 10) { c.passed = true; score += 25; }
+    }
+    callouts = callouts.filter(c => c.x > -10 && !c.dead);
+
+    for (const wl of walls) {
+      wl.x -= speed * 0.75 * dt;
+      const inX = Math.abs(wl.x - whale.x) < wl.w / 2 + whale.r * 0.6;
+      const inGap = whale.y - whale.r * 0.6 > wl.gapTop && whale.y + whale.r * 0.6 < wl.gapTop + wl.gapH;
+      if (inX && !inGap && !wl.hitDone) {
+        if (aiT > 0) { wl.hitDone = true; score += 100; popup('AI가 대표님을 설득함!', whale.x + 40, whale.y - 40, '#ffd84a'); }
+        else if (hurtT <= 0) { wl.hitDone = true; if (hit('bossfinal')) return; }
+      }
+      if (!wl.passed && wl.x < whale.x - wl.w / 2 - whale.r) { wl.passed = true; if (!wl.hitDone) { score += 150; popup('대표님 따돌림! +150', whale.x + 40, whale.y - 40, '#9be7b8'); } }
+    }
+    walls = walls.filter(wl => wl.x > -wl.w);
+
+    for (const it of items) {
+      it.x -= speed * dt; it.ph += dt * 4;
+      if (!it.got && Math.hypot(it.x - whale.x, it.y - whale.y) < whale.r + it.r) {
+        it.got = true;
+        if (it.kind === 'ai') { aiT = 3; stats.ai++; score += 50; popup('AI 발동! 3초 무적', whale.x + 30, whale.y - 44, '#ffd84a'); }
+        else if (it.kind === 'coffee') {
+          if (lives < 3) { lives++; popup('커피 수혈! 멘탈 +1', whale.x + 30, whale.y - 44, '#9be7b8'); }
+          else { score += 30; popup('커피 +30', whale.x + 30, whale.y - 44, '#9be7b8'); }
+        } else if (it.kind === 'halfday') {
+          t = Math.min(GAME_LEN * (BOSS_MIN - 0.5) / 60, t + GAME_LEN * 5 / 60); score += 50;
+          popup('반차 사용! +5분', whale.x + 30, whale.y - 44, '#7fd3ff');
+        }
+      }
+    }
+    items = items.filter(it => it.x > -40 && !it.got);
+
+    for (const b of bubbles) { b.y -= b.s * dt; b.x -= speed * 0.15 * dt; if (b.y < -10) { b.y = H + 10; b.x = Math.random() * W; } if (b.x < -10) b.x = W + 10; }
+    for (const pp of popups) { pp.life -= dt * 0.9; pp.y -= 40 * dt; }
+    popups = popups.filter(pp => pp.life > 0);
+
+    if (t >= GAME_LEN) end(true);
+  }
+
+  function lerp(a, b, k) { return a + (b - a) * k; }
+  function mix(c1, c2, k) { return 'rgb(' + c1.map((v, i) => Math.round(lerp(v, c2[i], k))).join(',') + ')'; }
+
+  function drawWhale() {
+    const { x, y } = whale;
+    const tilt = mode === 'dying' ? 0.6 : Math.max(-0.5, Math.min(0.5, whale.vy / 900));
+    const danger = mode === 'dying' || (whale.y + whale.r) > H - FLOOR_H - 50;
+    ctx.save();
+    ctx.translate(x, y); ctx.rotate(tilt);
+    if (mode === 'play' && hurtT > 0 && Math.floor(hurtT * 12) % 2 === 0) ctx.globalAlpha = 0.35;
+    if (aiT > 0) { ctx.shadowColor = '#ffd84a'; ctx.shadowBlur = 28; }
+    const body = aiT > 0 ? '#ffe27a' : mode === 'dying' ? '#4b8fb8' : '#63c9ff';
+    ctx.fillStyle = body;
+    ctx.beginPath();
+    ctx.moveTo(-22, 0);
+    ctx.quadraticCurveTo(-38, -4, -46, -16);
+    ctx.quadraticCurveTo(-40, 0, -46, 16);
+    ctx.quadraticCurveTo(-38, 4, -22, 0);
+    ctx.fill();
+    ctx.beginPath(); ctx.ellipse(0, 0, 30, 22, 0, 0, Math.PI * 2); ctx.fill();
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = aiT > 0 ? '#fff4c4' : '#d8f1ff';
+    ctx.beginPath(); ctx.ellipse(4, 10, 22, 10, 0, 0, Math.PI); ctx.fill();
+    ctx.fillStyle = '#ff6b81';
+    ctx.beginPath(); ctx.moveTo(12, 2); ctx.lineTo(18, 2); ctx.lineTo(16, 6); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(14.5, 6); ctx.lineTo(19, 18); ctx.lineTo(15, 22); ctx.lineTo(11, 18); ctx.closePath(); ctx.fill();
+    ctx.fillStyle = '#071631';
+    if (mode === 'dying') {
+      ctx.strokeStyle = '#071631'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(13, -9); ctx.lineTo(19, -3); ctx.moveTo(19, -9); ctx.lineTo(13, -3); ctx.stroke();
+    } else {
+      ctx.beginPath(); ctx.arc(16, -6, 3.4, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.arc(17.2, -7.2, 1.2, 0, Math.PI * 2); ctx.fill();
+    }
+    ctx.strokeStyle = '#071631'; ctx.lineWidth = 1.6;
+    ctx.beginPath();
+    if (hurtT > 0 || danger) { ctx.moveTo(20, 4); ctx.lineTo(26, 3); } else { ctx.arc(22, 2, 4, 0.2, Math.PI - 0.6); }
+    ctx.stroke();
+    if (danger && aiT <= 0) {
+      ctx.fillStyle = '#bfe9ff';
+      ctx.beginPath(); ctx.moveTo(26, -18); ctx.quadraticCurveTo(31, -10, 26, -8); ctx.quadraticCurveTo(21, -10, 26, -18); ctx.fill();
+    }
+    if (spoutT > 0) {
+      ctx.strokeStyle = '#bfe9ff'; ctx.lineWidth = 2.5; ctx.lineCap = 'round';
+      const h = 10 + (0.25 - spoutT) * 60;
+      ctx.beginPath(); ctx.moveTo(4, -22); ctx.lineTo(4, -22 - h); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(4, -22 - h); ctx.lineTo(-4, -22 - h + 5); ctx.moveTo(4, -22 - h); ctx.lineTo(12, -22 - h + 5); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawCallout(c, now) {
+    if (c.warn > 0) {
+      const on = Math.floor(now / 120) % 2 === 0;
+      ctx.fillStyle = 'rgba(255,107,129,0.12)';
+      ctx.fillRect(0, c.y - c.h / 2, W, c.h);
+      if (on) {
+        const label = `❗ ${player}씨~!`;
+        ctx.font = '17px "Black Han Sans", sans-serif';
+        const lw = ctx.measureText(label).width + 26;
+        ctx.fillStyle = '#ff6b81';
+        ctx.beginPath(); ctx.roundRect(W - lw - 10, c.y - 17, lw, 34, 17); ctx.fill();
+        ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(label, W - 10 - lw / 2, c.y + 1);
+      }
+      return;
+    }
+    const left = c.x - c.w, top = c.y - c.h / 2;
+    ctx.fillStyle = '#fff';
+    ctx.beginPath(); ctx.roundRect(left, top, c.w, c.h, 23); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(c.x - 30, top + c.h - 2); ctx.lineTo(c.x - 6, top + c.h + 12); ctx.lineTo(c.x - 16, top + c.h - 2); ctx.fill();
+    ctx.fillStyle = '#071631'; ctx.font = '18px "Black Han Sans", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText(c.text, left + c.w / 2, c.y + 1);
+    ctx.strokeStyle = 'rgba(255,255,255,0.5)'; ctx.lineWidth = 2;
+    for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.moveTo(c.x + 8, c.y + i * 12); ctx.lineTo(c.x + 30 - Math.abs(i) * 8, c.y + i * 12); ctx.stroke(); }
+  }
+
+  function drawWall(wl) {
+    const playH = H - FLOOR_H;
+    const x0 = wl.x - wl.w / 2;
+    const seg = [[0, wl.gapTop], [wl.gapTop + wl.gapH, playH]];
+    for (const [a, b] of seg) {
+      if (b - a < 4) continue;
+      ctx.fillStyle = '#3a1630';
+      ctx.beginPath(); ctx.roundRect(x0, a, wl.w, b - a, 14); ctx.fill();
+      ctx.strokeStyle = '#ff6b81'; ctx.lineWidth = 3; ctx.stroke();
+      ctx.save();
+      ctx.beginPath(); ctx.rect(x0, a, wl.w, b - a); ctx.clip();
+      ctx.font = '60px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      const mid = (a + b) / 2;
+      ctx.fillText('👔', wl.x, mid - 26);
+      ctx.fillStyle = '#ffd84a'; ctx.font = '16px "Black Han Sans", sans-serif';
+      ctx.fillText(`${player}씨,`, wl.x, mid + 22);
+      ctx.fillText('나가기 전에', wl.x, mid + 42);
+      ctx.fillText('잠깐…', wl.x, mid + 62);
+      ctx.restore();
+    }
+    // gap hint
+    ctx.fillStyle = 'rgba(155,231,184,0.18)';
+    ctx.fillRect(x0, wl.gapTop, wl.w, wl.gapH);
+    ctx.fillStyle = '#9be7b8'; ctx.font = '700 13px "Gothic A1", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('탈출구', wl.x, wl.gapTop + wl.gapH / 2);
+  }
+
+  function dyingClock() {
+    const k = Math.min(1, dieT / 1.4);
+    const from = 18 * 60 + deathMin, to = 22 * 60 + 47;
+    const m = Math.round(lerp(from, to, k * k));
+    return Math.floor(m / 60) + ':' + String(m % 60).padStart(2, '0');
+  }
+
+  function draw(now) {
+    const p = progress();
+    ctx.save();
+    if (shake > 0) ctx.translate((Math.random() - 0.5) * 10, (Math.random() - 0.5) * 10);
+
+    const g = ctx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, mix([15, 47, 94], [70, 52, 120], p));
+    g.addColorStop(1, mix([7, 22, 49], [30, 26, 70], p));
+    ctx.fillStyle = g; ctx.fillRect(-10, -10, W + 20, H + 20);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.035)';
+    const off = (t * 40) % 80;
+    for (let gx = -off; gx < W; gx += 80) for (let gy = 90; gy < H - 80; gy += 110) ctx.fillRect(gx, gy, 44, 60);
+
+    for (const b of bubbles) {
+      ctx.strokeStyle = 'rgba(190,230,255,0.35)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.stroke();
+    }
+
+    const fy = H - FLOOR_H;
+    const fg = ctx.createLinearGradient(0, fy - 30, 0, H);
+    fg.addColorStop(0, 'rgba(255,80,80,0)');
+    fg.addColorStop(0.5, 'rgba(255,80,80,0.35)');
+    fg.addColorStop(1, 'rgba(160,20,40,0.95)');
+    ctx.fillStyle = fg; ctx.fillRect(0, fy - 30, W, FLOOR_H + 30);
+    ctx.fillStyle = '#ff6b81'; ctx.fillRect(0, fy, W, 2);
+    ctx.font = '700 11px "Gothic A1", sans-serif'; ctx.textBaseline = 'middle'; ctx.textAlign = 'left';
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    const lo = (t * 60) % 120;
+    for (let lx = -lo; lx < W; lx += 120) ctx.fillText('🔥 번아웃 존', lx + 10, fy + FLOOR_H / 2);
+
+    if (p > 0.95) {
+      const ex = lerp(W + 80, W - 90, (p - 0.95) / 0.05);
+      ctx.fillStyle = '#1fbf75'; ctx.fillRect(ex, H * 0.42 - 30, 78, 40);
+      ctx.fillStyle = '#fff'; ctx.font = '22px "Black Han Sans", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('퇴근 →', ex + 39, H * 0.42 - 9);
+    }
+
+    for (const wl of walls) drawWall(wl);
+    for (const c of callouts) drawCallout(c, now);
+
+    for (const it of items) {
+      const pulse = 1 + Math.sin(it.ph) * 0.1;
+      ctx.save(); ctx.translate(it.x, it.y); ctx.scale(pulse, pulse);
+      const col = it.kind === 'ai' ? '#ffd84a' : it.kind === 'coffee' ? '#9be7b8' : '#7fd3ff';
+      ctx.shadowColor = col; ctx.shadowBlur = 22;
+      ctx.fillStyle = col;
+      ctx.beginPath(); ctx.arc(0, 0, it.r, 0, Math.PI * 2); ctx.fill();
+      ctx.shadowBlur = 0;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      if (it.kind === 'ai') { ctx.fillStyle = '#071631'; ctx.font = '20px "Black Han Sans", sans-serif'; ctx.fillText('AI', 0, 1); }
+      else { ctx.font = '22px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif'; ctx.fillText(it.kind === 'coffee' ? '☕' : '🏖️', 0, 1); }
+      ctx.restore();
+      if (it.kind === 'halfday') {
+        ctx.font = '700 11px "Gothic A1", sans-serif'; ctx.fillStyle = '#7fd3ff'; ctx.textAlign = 'center';
+        ctx.fillText('반차', it.x, it.y + 32);
+      }
+    }
+
+    for (const o of obstacles) {
+      ctx.save();
+      let jx = 0;
+      if (o.T.beh === 'buzz' && !o.dead) jx = Math.sin(now / 25) * 2.5;
+      ctx.translate(o.x + jx, o.y); ctx.rotate(o.spin);
+      const size = o.T.beh === 'big' ? 50 : o.T.beh === 'cluster' ? 26 : 38;
+      ctx.font = size + 'px system-ui, "Apple Color Emoji", "Segoe UI Emoji", sans-serif';
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(o.T.e, 0, 0);
+      if (!o.dead && o.showLabel) {
+        ctx.font = '700 12px "Gothic A1", sans-serif';
+        const w = ctx.measureText(o.T.label).width + 12;
+        const ly = o.r + 2;
+        ctx.fillStyle = 'rgba(7,22,49,0.8)';
+        ctx.beginPath(); ctx.roundRect(-w / 2, ly, w, 18, 9); ctx.fill();
+        ctx.fillStyle = '#ffb3c0';
+        ctx.fillText(o.T.label, 0, ly + 9.5);
+      }
+      ctx.restore();
+    }
+
+    drawWhale();
+
+    for (const pp of popups) {
+      ctx.globalAlpha = Math.max(0, pp.life);
+      ctx.fillStyle = pp.color; ctx.font = '20px "Black Han Sans", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.fillText(pp.text, Math.min(W - 90, Math.max(90, pp.x)), pp.y);
+      ctx.globalAlpha = 1;
+    }
+    ctx.restore();
+
+    if (flash > 0) { ctx.fillStyle = `rgba(255,60,90,${flash * 0.5})`; ctx.fillRect(0, 0, W, H); }
+
+    if (mode === 'dying') {
+      const k = Math.min(1, dieT / 1.4);
+      ctx.fillStyle = `rgba(3,8,20,${0.25 + k * 0.5})`; ctx.fillRect(0, 0, W, H);
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillStyle = '#ff6b81'; ctx.font = '72px "Black Han Sans", sans-serif';
+      ctx.fillText(dyingClock(), W / 2, H * 0.36);
+      ctx.fillStyle = '#a3b8dc'; ctx.font = '700 14px "Gothic A1", sans-serif';
+      ctx.fillText(result && result.floor ? '번아웃으로 조퇴는커녕…' : '결국 오늘도 야근', W / 2, H * 0.36 + 50);
+      if (dieT > 0.5) {
+        const bw = 250, bx = W / 2 - bw / 2, by = H * 0.52;
+        ctx.fillStyle = '#f2f6ff';
+        ctx.beginPath(); ctx.roundRect(bx, by, bw, 46, 23); ctx.fill();
+        ctx.fillStyle = '#071631'; ctx.font = '17px "Black Han Sans", sans-serif';
+        ctx.fillText('🐳 ' + deathLine, W / 2, by + 24);
+      }
+    }
+
+    if (mode !== 'start') {
+      ctx.fillStyle = 'rgba(5,16,38,0.7)';
+      ctx.beginPath(); ctx.roundRect(W / 2 - 62, 14, 124, 50, 12); ctx.fill();
+      ctx.fillStyle = mode === 'dying' ? '#ff6b81' : p > 0.85 ? '#ffd84a' : '#f2f6ff';
+      ctx.font = '34px "Black Han Sans", sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(mode === 'dying' ? dyingClock() : clockText(), W / 2, 41);
+
+      ctx.textAlign = 'left'; ctx.font = '700 12px "Gothic A1", sans-serif'; ctx.fillStyle = '#a3b8dc';
+      ctx.fillText('멘탈', 16, 26);
+      ctx.font = '18px system-ui, sans-serif';
+      for (let i = 0; i < 3; i++) { ctx.fillStyle = i < lives ? '#ff6b81' : 'rgba(255,255,255,0.18)'; ctx.fillText('♥', 16 + i * 20, 46); }
+
+      ctx.textAlign = 'right'; ctx.font = '700 12px "Gothic A1", sans-serif'; ctx.fillStyle = '#a3b8dc';
+      ctx.fillText('점수', W - 16, 26);
+      ctx.font = '22px "Black Han Sans", sans-serif'; ctx.fillStyle = '#f2f6ff';
+      ctx.fillText(score.toLocaleString(), W - 16, 47);
+
+      if (aiT > 0 && mode === 'play') {
+        ctx.fillStyle = '#ffd84a'; ctx.fillRect(W / 2 - 50, 70, 100 * (aiT / 3), 5);
+        ctx.font = '700 11px "Gothic A1", sans-serif'; ctx.textAlign = 'center'; ctx.fillText('AI가 대신 처리 중…', W / 2, 88);
+      }
+
+      if (banner && mode === 'play') {
+        const a = Math.min(1, banner.life * 2);
+        ctx.globalAlpha = a;
+        ctx.fillStyle = 'rgba(255,107,129,0.92)';
+        ctx.fillRect(0, H * 0.3 - 34, W, 68);
+        ctx.fillStyle = '#fff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.font = '700 12px "Gothic A1", sans-serif'; ctx.fillText(banner.sub, W / 2, H * 0.3 - 14);
+        ctx.font = '28px "Black Han Sans", sans-serif'; ctx.fillText(banner.text, W / 2, H * 0.3 + 10);
+        ctx.globalAlpha = 1;
+      }
+
+      if (mode === 'ready') {
+        ctx.fillStyle = 'rgba(5,16,38,0.75)';
+        ctx.beginPath(); ctx.roundRect(W / 2 - 130, H * 0.6 - 34, 260, 68, 16); ctx.fill();
+        ctx.fillStyle = '#ffd84a'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.font = '24px "Black Han Sans", sans-serif'; ctx.fillText('탭해서 출발!', W / 2, H * 0.6 - 9);
+        ctx.font = '700 12px "Gothic A1", sans-serif'; ctx.fillStyle = '#f2f6ff';
+        ctx.fillText('바닥에 닿으면 번아웃이에요', W / 2, H * 0.6 + 16);
+      }
+    }
+  }
+
+  let last = performance.now();
+  function loop(now) {
+    const dt = Math.min(0.033, (now - last) / 1000);
+    last = now;
+    if (mode === 'play') update(dt);
+    else if (mode === 'dying') {
+      dieT += dt;
+      whale.y = Math.min(H - FLOOR_H + 10, whale.y + 50 * dt);
+      for (const pp of popups) { pp.life -= dt * 0.9; pp.y -= 40 * dt; }
+      if (dieT > 2.1) { mode = 'over'; showOver(); }
+    } else if (mode === 'start' || mode === 'ready') {
+      for (const b of bubbles) { b.y -= b.s * dt; if (b.y < -10) b.y = H + 10; }
+      whale.y = H * 0.42 + Math.sin(now / 400) * 10;
+    }
+    draw(now);
+    requestAnimationFrame(loop);
+  }
+  document.addEventListener('visibilitychange', () => { last = performance.now(); });
+  requestAnimationFrame(loop);
+})();
+</script>
+
+</body>
+</html>
